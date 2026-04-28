@@ -918,9 +918,9 @@ async function doSubmit(){
     const mm = String(today.getMonth()+1).padStart(2,'0');
     const dd = String(today.getDate()).padStart(2,'0');
     const dateCode = `${yy}${mm}${dd}`;
-    const dateKor  = `${today.getFullYear()}년   ${today.getMonth()+1}월   ${today.getDate()}일`;
     const rawName  = v('name');
     const safeName = rawName.replace(/\s+/g,'') || 'applicant';
+    const sigData  = sigCanvas.toDataURL('image/png');
 
     // 위임장 서명란에 서명 이미지 삽입
     const poaSigEl = document.getElementById('poaSigImg');
@@ -931,7 +931,6 @@ async function doSubmit(){
     }
     const poaName2El = document.getElementById('poaName2');
     if(poaName2El) poaName2El.textContent = rawName;
-    const sigData  = sigCanvas.toDataURL('image/png');
 
     // ── FormData ──
     const formData = new FormData();
