@@ -176,8 +176,14 @@ canvas#sigPad{display:block;width:100%;height:130px;touch-action:none}
       <input type="tel" id="phone" placeholder="010-0000-0000" inputmode="numeric" maxlength="13">
       <div class="err" id="err-phone">연락처를 입력해주세요.</div>
     </div>
-    <div style="background:var(--gold-light);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:10px 13px;margin-bottom:13px;font-size:13px;color:var(--navy)">
-      📅 환급 신청 연도: <strong>2020년 ~ 2024년 (5년치)</strong>
+    <div style="background:var(--gold-light);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:10px 13px;margin-bottom:8px">
+      <div style="font-size:10px;color:var(--gray);margin-bottom:3px" id="labelRefundYears">환급 신청 연도 · Refund Years</div>
+      <div style="font-size:13px;color:var(--navy);font-weight:600" id="valueRefundYears">📅 2020년 ~ 2024년 (5년치)</div>
+    </div>
+    <div style="background:#FFF8E8;border-left:3px solid #F5A623;border-radius:0 10px 10px 0;padding:10px 13px;margin-bottom:13px">
+      <div style="font-size:10px;color:var(--gray);margin-bottom:3px" id="labelFee">환급 수수료 · Service Fee</div>
+      <div style="font-size:13px;color:var(--navy);font-weight:600" id="valueFee">💰 실제 환급세액의 20%</div>
+      <div style="font-size:11px;color:var(--gray);margin-top:2px" id="valueFeeNote">환급 없을 시 수수료 없음</div>
     </div>
 
     <!-- 근로소득자 여부 -->
@@ -252,15 +258,16 @@ canvas#sigPad{display:block;width:100%;height:130px;touch-action:none}
       </table>
       <div id="privacyLangBox" style="font-size:11px;color:var(--gray);line-height:1.6;background:white;border-radius:8px;padding:10px;margin-bottom:10px"></div>
       <div style="display:flex;flex-direction:column;gap:8px">
-        <label style="display:flex;align-items:center;gap:10px;padding:12px 14px;border:1.5px solid var(--green);border-radius:10px;cursor:pointer;background:var(--green-light)">
-          <input type="radio" name="privacy" value="yes" style="width:18px;height:18px;accent-color:var(--green)" onchange="selectPrivacy(this)">
+        <div style="display:flex;align-items:center;gap:10px;padding:12px 14px;border:2px solid var(--border);border-radius:10px;cursor:pointer;transition:all .2s;background:var(--white)" id="privacyYesLabel" onclick="selectPrivacyBtn('yes')">
+          <div id="privacyYesDot" style="width:20px;height:20px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s"></div>
           <span id="privacyYesTxt" style="font-size:14px;font-weight:600;color:#166534">✅ 동의합니다 (I Agree)</span>
-        </label>
-        <label style="display:flex;align-items:center;gap:10px;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;cursor:pointer">
-          <input type="radio" name="privacy" value="no" style="width:18px;height:18px;accent-color:var(--error)" onchange="selectPrivacy(this)">
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;padding:12px 14px;border:2px solid var(--border);border-radius:10px;cursor:pointer;transition:all .2s;background:var(--white)" id="privacyNoLabel" onclick="selectPrivacyBtn('no')">
+          <div id="privacyNoDot" style="width:20px;height:20px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s"></div>
           <span id="privacyNoTxt" style="font-size:14px;font-weight:600;color:var(--error)">❌ 동의하지 않습니다 (I Disagree)</span>
-        </label>
+        </div>
       </div>
+      <input type="hidden" id="privacyValue" value="">
       <div class="err" id="err-privacy">개인정보 수집에 동의해주세요.</div>
     </div>
     <button class="btn" onclick="go3()">다음 → 위임장 서명</button>
@@ -313,7 +320,7 @@ canvas#sigPad{display:block;width:100%;height:130px;touch-action:none}
         </table>
 
         <!-- 위임 내용 -->
-        <div style="border:1px solid #999;padding:12px 14px;margin-bottom:12px;font-size:12px">
+        <div style="border:1px solid #999;padding:12px 14px;margin-bottom:16px;font-size:12px">
           <div style="font-weight:700;margin-bottom:8px">【 위임 내용 】</div>
           <div style="color:#333;margin-bottom:4px">하기 서류에 관한 출력업무 위임의 건</div>
           <div style="color:#333;padding-left:8px;line-height:1.8">
@@ -321,13 +328,6 @@ canvas#sigPad{display:block;width:100%;height:130px;touch-action:none}
             2. 종합소득세 2020년~2024년 신고서 첨부자료<br>
             3. 상기 자료 외 경정청구 관련된 자료
           </div>
-        </div>
-
-        <!-- 수수료 -->
-        <div style="border:1px solid #F5A623;padding:10px 14px;background:#FFF8E8;margin-bottom:16px;font-size:12px">
-          <span style="font-weight:700">【 수수료 】</span>&nbsp;&nbsp;
-          <strong>실제 환급세액의 20%</strong>
-          <span style="color:#999;font-size:11px;margin-left:8px">(환급이 없을 경우 수수료 없음)</span>
         </div>
 
         <div style="font-size:11px;color:#555;margin-bottom:20px">본인은 위 위임 내용을 충분히 이해하였으며, 제공한 모든 정보가 사실임을 확인합니다.</div>
@@ -362,6 +362,32 @@ canvas#sigPad{display:block;width:100%;height:130px;touch-action:none}
     <button class="btn2" onclick="go2()">← 이전</button>
   </div>
   <div class="bspace"></div>
+</div>
+
+<!-- 숨김: 정보시트 캡처용 -->
+<div id="infoBox" style="display:none;position:fixed;left:-9999px;top:0;width:794px;background:#fff;font-family:Arial,sans-serif;padding:0">
+  <div style="background:#0B1F3A;padding:14px 28px;text-align:center">
+    <div style="color:#F5A623;font-size:15px;font-weight:900;letter-spacing:2px">신청정보 확인서</div>
+    <div style="color:rgba(255,255,255,0.7);font-size:10px;margin-top:4px">세무회계 아진 · 외국인 근로자 세금환급</div>
+  </div>
+  <div style="padding:24px 28px">
+    <table style="width:100%;border-collapse:collapse;margin-bottom:20px;font-size:13px">
+      <tr><td style="background:#f0f4ff;border:1px solid #ccc;padding:8px 12px;font-weight:700;width:100px;color:#0B1F3A">성&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;명</td><td id="ib-name" style="border:1px solid #ccc;padding:8px 12px;font-size:14px;font-weight:700"></td></tr>
+      <tr><td style="background:#f0f4ff;border:1px solid #ccc;padding:8px 12px;font-weight:700;color:#0B1F3A">등 록 번 호</td><td id="ib-arc" style="border:1px solid #ccc;padding:8px 12px;font-size:14px;font-weight:700;letter-spacing:1px"></td></tr>
+      <tr><td style="background:#f0f4ff;border:1px solid #ccc;padding:8px 12px;font-weight:700;color:#0B1F3A">연&nbsp;&nbsp;&nbsp;락&nbsp;&nbsp;&nbsp;처</td><td id="ib-phone" style="border:1px solid #ccc;padding:8px 12px"></td></tr>
+      <tr><td style="background:#f0f4ff;border:1px solid #ccc;padding:8px 12px;font-weight:700;color:#0B1F3A">국&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;가</td><td id="ib-country" style="border:1px solid #ccc;padding:8px 12px"></td></tr>
+      <tr><td style="background:#f0f4ff;border:1px solid #ccc;padding:8px 12px;font-weight:700;color:#0B1F3A">환급신청연도</td><td style="border:1px solid #ccc;padding:8px 12px">2020년 ~ 2024년</td></tr>
+      <tr><td style="background:#FFF8E8;border:1px solid #F5A623;padding:8px 12px;font-weight:700;color:#0B1F3A">환급 수수료</td><td style="border:1px solid #F5A623;padding:8px 12px;background:#FFF8E8"><strong>실제 환급세액의 20%</strong>&nbsp;&nbsp;<span style="color:#999;font-size:11px">(환급 없을 시 수수료 없음)</span></td></tr>
+      <tr><td style="background:#f0f4ff;border:1px solid #ccc;padding:8px 12px;font-weight:700;color:#0B1F3A">근로소득자 여부</td><td id="ib-emp" style="border:1px solid #ccc;padding:8px 12px"></td></tr>
+      <tr><td style="background:#f0f4ff;border:1px solid #ccc;padding:8px 12px;font-weight:700;color:#0B1F3A">주 거 형 태</td><td id="ib-house" style="border:1px solid #ccc;padding:8px 12px"></td></tr>
+      <tr><td style="background:#f0f4ff;border:1px solid #ccc;padding:8px 12px;font-weight:700;color:#0B1F3A">개인정보 동의</td><td style="border:1px solid #ccc;padding:8px 12px;color:green;font-weight:700">✅ 동의</td></tr>
+      <tr><td style="background:#f0f4ff;border:1px solid #ccc;padding:8px 12px;font-weight:700;color:#0B1F3A">신 청 일 자</td><td id="ib-date" style="border:1px solid #ccc;padding:8px 12px"></td></tr>
+    </table>
+    <div style="border-top:1px solid #ccc;padding-top:16px;margin-bottom:8px">
+      <div style="font-size:12px;font-weight:700;color:#0B1F3A;margin-bottom:6px">서명 (Signature)</div>
+      <div id="ib-sig" style="border:1px solid #ccc;border-radius:6px;padding:6px;text-align:center;height:80px;display:flex;align-items:center;justify-content:center"></div>
+    </div>
+  </div>
 </div>
 
 <div class="card success" id="successScreen">
@@ -399,6 +425,8 @@ const LANG_TEXT = {
   zh: {
     empYes: '✅ 工薪所得者（受雇员工） (근로소득자)', empYesSub: '在公司工作并领取工资的人员',
     empNo: '❌ 非工薪所得者 (비근로소득자)', empNoSub: '经营所得、其他所得等',
+    labelRefundYears: '退税申请年度 (환급 신청 연도)', valueRefundYears: '📅 2020年 ~ 2024年 (5년치)',
+    labelFee: '服务费 (환급 수수료)', valueFee: '💰 实际退税额的20%', valueFeeNote: '如无退税，则不产生服务费 (환급 없을 시 수수료 없음)',
     houseLabel1: '月租 (월세)', houseSub1: '每月支付租金',
     houseLabel2: '租房押金 (전세)', houseSub2: '一次性押金租房',
     houseLabel3: '自有房屋 (자가)', houseSub3: '本人拥有的房屋',
@@ -412,6 +440,8 @@ const LANG_TEXT = {
   vi: {
     empYes: '✅ Người có thu nhập từ việc làm (근로소득자)', empYesSub: 'Người được thuê và nhận lương từ công ty',
     empNo: '❌ Không phải người có thu nhập từ việc làm (비근로소득자)', empNoSub: 'Thu nhập kinh doanh, thu nhập khác, v.v.',
+    labelRefundYears: 'Năm hoàn thuế (환급 신청 연도)', valueRefundYears: '📅 2020 ~ 2024 (5년치)',
+    labelFee: 'Phí dịch vụ (환급 수수료)', valueFee: '💰 20% số tiền hoàn thuế thực tế', valueFeeNote: 'Không có hoàn thuế = Không mất phí (환급 없을 시 수수료 없음)',
     houseLabel1: 'Thuê tháng (월세)', houseSub1: 'Trả tiền thuê hàng tháng',
     houseLabel2: 'Jeonse (전세)', houseSub2: 'Đặt cọc thuê nhà',
     houseLabel3: 'Nhà riêng (자가)', houseSub3: 'Nhà sở hữu',
@@ -423,11 +453,13 @@ const LANG_TEXT = {
     privacyYes: '✅ Đồng ý (동의합니다)', privacyNo: '❌ Không đồng ý (동의하지 않습니다)',
   },
   en: {
-    empYes: '✅ Employment Income Earner', empYesSub: 'Employed by a company and receiving salary',
-    empNo: '❌ Non-Employment Income', empNoSub: 'Business income, other income, etc.',
-    houseLabel1: 'Monthly Rent', houseSub1: 'Pay rent monthly',
+    empYes: '✅ Employment Income Earner (근로소득자)', empYesSub: 'Employed by a company and receiving salary',
+    empNo: '❌ Non-Employment Income (비근로소득자)', empNoSub: 'Business income, other income, etc.',
+    labelRefundYears: 'Refund Years (환급 신청 연도)', valueRefundYears: '📅 2020 ~ 2024 (5 years)',
+    labelFee: 'Service Fee (환급 수수료)', valueFee: '💰 20% of actual refund amount', valueFeeNote: 'No refund = No fee (환급 없을 시 수수료 없음)',
+    houseLabel1: 'Monthly Rent (월세)', houseSub1: 'Pay rent monthly',
     houseLabel2: 'Jeonse (전세)', houseSub2: 'Deposit-based rental',
-    houseLabel3: 'Own House', houseSub3: 'Owner-occupied',
+    houseLabel3: 'Own House (자가)', houseSub3: 'Owner-occupied',
     privacyTitle: '📋 Consent to Collection and Use of Personal Information (개인정보 수집 및 이용 동의)',
     privacyItem1: 'Items (수집 항목)', privacyItem1Val: 'Name, contact, registration number, signature (이름·연락처·등록번호·서명)',
     privacyItem2: 'Purpose (이용 목적)', privacyItem2Val: 'Income tax amended return agency (소득세 경정청구 세무대리)',
@@ -438,6 +470,8 @@ const LANG_TEXT = {
   th: {
     empYes: '✅ ผู้มีรายได้จากการจ้างงาน (근로소득자)', empYesSub: 'ทำงานในบริษัทและได้รับเงินเดือน',
     empNo: '❌ ไม่ใช่ผู้มีรายได้จากการจ้างงาน (비근로소득자)', empNoSub: 'รายได้จากธุรกิจ, รายได้อื่น ฯลฯ',
+    labelRefundYears: 'ปีขอคืนภาษี (환급 신청 연도)', valueRefundYears: '📅 2020 ~ 2024 (5년치)',
+    labelFee: 'ค่าบริการ (환급 수수료)', valueFee: '💰 20% ของยอดเงินคืนภาษีจริง', valueFeeNote: 'ไม่มีคืนเงิน = ไม่มีค่าธรรมเนียม (환급 없을 시 수수료 없음)',
     houseLabel1: 'เช่ารายเดือน (월세)', houseSub1: 'จ่ายค่าเช่ารายเดือน',
     houseLabel2: 'จอนเซ (전세)', houseSub2: 'เช่าแบบวางเงินประกัน',
     houseLabel3: 'บ้านตัวเอง (자가)', houseSub3: 'บ้านของตัวเอง',
@@ -451,6 +485,8 @@ const LANG_TEXT = {
   uz: {
     empYes: "✅ Ish haqi oluvchi xodim (근로소득자)", empYesSub: "Kompaniyada ishlaydi va maosh oladi",
     empNo: "❌ Ish haqi bo'lmagan daromad (비근로소득자)", empNoSub: "Biznes daromadi, boshqa daromadlar",
+    labelRefundYears: "Qaytarish yillari (환급 신청 연도)", valueRefundYears: "📅 2020 ~ 2024 (5 yil)",
+    labelFee: "Xizmat haqi (환급 수수료)", valueFee: "💰 Haqiqiy qaytarish miqdorining 20%", valueFeeNote: "Qaytarilmasa haq yo'q (환급 없을 시 수수료 없음)",
     houseLabel1: "Oylik ijara (월세)", houseSub1: "Har oy ijara to'lash",
     houseLabel2: "Jonse (전세)", houseSub2: "Garov asosida ijara",
     houseLabel3: "O'z uyi (자가)", houseSub3: "O'z mulki",
@@ -464,6 +500,8 @@ const LANG_TEXT = {
   tl: {
     empYes: '✅ May Kita mula sa Trabaho (근로소득자)', empYesSub: 'Employed sa isang kumpanya at tumatanggap ng sahod',
     empNo: '❌ Walang Kita mula sa Trabaho (비근로소득자)', empNoSub: 'Kita sa negosyo, ibang kita, atbp.',
+    labelRefundYears: 'Taon ng Refund (환급 신청 연도)', valueRefundYears: '📅 2020 ~ 2024 (5 taon)',
+    labelFee: 'Bayad sa Serbisyo (환급 수수료)', valueFee: '💰 20% ng aktwal na halaga ng refund', valueFeeNote: 'Walang refund = Walang bayad (환급 없을 시 수수료 없음)',
     houseLabel1: 'Buwanang Upa (월세)', houseSub1: 'Nagbabayad ng upa bawat buwan',
     houseLabel2: 'Jeonse (전세)', houseSub2: 'Deposito batay na pag-upa',
     houseLabel3: 'Sariling Bahay (자가)', houseSub3: 'Sariling-ari',
@@ -477,6 +515,8 @@ const LANG_TEXT = {
   ja: {
     empYes: '✅ 給与所得者 (근로소득자)', empYesSub: '会社に雇用され給与を受け取っている方',
     empNo: '❌ 給与所得者以外 (비근로소득자)', empNoSub: '事業所得・その他所得等',
+    labelRefundYears: '還付申告年度 (환급 신청 연도)', valueRefundYears: '📅 2020年 ~ 2024年 (5년치)',
+    labelFee: '手数料 (환급 수수료)', valueFee: '💰 実際の還付税額の20%', valueFeeNote: '還付なし＝手数料なし (환급 없을 시 수수료 없음)',
     houseLabel1: '月額賃貸 (월세)', houseSub1: '毎月家賃を支払う',
     houseLabel2: '전세 (전세)', houseSub2: '保証金制賃貸',
     houseLabel3: '自己所有 (자가)', houseSub3: '自己所有の住宅',
@@ -490,6 +530,8 @@ const LANG_TEXT = {
   ne: {
     empYes: '✅ रोजगारी आयकर्ता (근로소득자)', empYesSub: 'कम्पनीमा कार्यरत र तलब प्राप्त गर्ने व्यक्ति',
     empNo: '❌ गैर-रोजगारी आयकर्ता (비근로소득자)', empNoSub: 'व्यापार आय, अन्य आय आदि',
+    labelRefundYears: 'फिर्ता अनुरोध वर्ष (환급 신청 연도)', valueRefundYears: '📅 २०२० ~ २०२४ (5년치)',
+    labelFee: 'सेवा शुल्क (환급 수수료)', valueFee: '💰 वास्तविक फिर्ता रकमको २०%', valueFeeNote: 'फिर्ता नभए शुल्क छैन (환급 없을 시 수수료 없음)',
     houseLabel1: 'मासिक भाडा (월세)', houseSub1: 'मासिक भाडा तिर्ने',
     houseLabel2: 'जोन्से (전세)', houseSub2: 'धरौटी भाडा',
     houseLabel3: 'आफ्नै घर (자가)', houseSub3: 'आफ्नै स्वामित्व',
@@ -503,6 +545,8 @@ const LANG_TEXT = {
   id: {
     empYes: '✅ Penerima Penghasilan dari Pekerjaan (근로소득자)', empYesSub: 'Dipekerjakan oleh perusahaan dan menerima gaji',
     empNo: '❌ Bukan Penerima Penghasilan dari Pekerjaan (비근로소득자)', empNoSub: 'Penghasilan usaha, penghasilan lainnya, dll.',
+    labelRefundYears: 'Tahun Permohonan Refund (환급 신청 연도)', valueRefundYears: '📅 2020 ~ 2024 (5 tahun)',
+    labelFee: 'Biaya Layanan (환급 수수료)', valueFee: '💰 20% dari jumlah pengembalian aktual', valueFeeNote: 'Tidak ada pengembalian = Tidak ada biaya (환급 없을 시 수수료 없음)',
     houseLabel1: 'Sewa Bulanan (월세)', houseSub1: 'Membayar sewa bulanan',
     houseLabel2: 'Jeonse (전세)', houseSub2: 'Sewa berbasis deposito',
     houseLabel3: 'Rumah Sendiri (자가)', houseSub3: 'Milik sendiri',
@@ -546,8 +590,22 @@ function selectEmp(val) {
 }
 
 // ── 개인정보 동의 선택 ──
-function selectPrivacy(radio) {
-  if(radio.value === 'no'){
+function selectPrivacyBtn(val) {
+  document.getElementById('privacyValue').value = val;
+  const yL=document.getElementById('privacyYesLabel'), nL=document.getElementById('privacyNoLabel');
+  const yD=document.getElementById('privacyYesDot'),   nD=document.getElementById('privacyNoDot');
+  yL.style.borderColor='var(--border)'; yL.style.background='var(--white)';
+  nL.style.borderColor='var(--border)'; nL.style.background='var(--white)';
+  yD.innerHTML=''; yD.style.borderColor='var(--border)'; yD.style.background='white';
+  nD.innerHTML=''; nD.style.borderColor='var(--border)'; nD.style.background='white';
+  if(val==='yes'){
+    yL.style.borderColor='var(--green)'; yL.style.background='var(--green-light)';
+    yD.style.borderColor='var(--green)'; yD.style.background='var(--green)';
+    yD.innerHTML='<span style="color:white;font-size:12px">✓</span>';
+  } else {
+    nL.style.borderColor='var(--error)'; nL.style.background='#FEF2F2';
+    nD.style.borderColor='var(--error)'; nD.style.background='var(--error)';
+    nD.innerHTML='<span style="color:white;font-size:12px">✓</span>';
     alert('개인정보 수집에 동의하지 않으면 서비스 이용이 어렵습니다.');
   }
 }
@@ -564,6 +622,12 @@ function applyLangText() {
   if(empYesSubEl) empYesSubEl.textContent = t.empYesSub;
   if(empNoEl) empNoEl.textContent = t.empNo;
   if(empNoSubEl) empNoSubEl.textContent = t.empNoSub;
+  // 환급 신청 연도 & 수수료
+  const lry=document.getElementById('labelRefundYears'); if(lry) lry.textContent=t.labelRefundYears||'환급 신청 연도 · Refund Years';
+  const vry=document.getElementById('valueRefundYears'); if(vry) vry.textContent=t.valueRefundYears||'📅 2020년 ~ 2024년 (5년치)';
+  const lf =document.getElementById('labelFee');         if(lf)  lf.textContent=t.labelFee||'환급 수수료 · Service Fee';
+  const vf =document.getElementById('valueFee');         if(vf)  vf.textContent=t.valueFee||'💰 실제 환급세액의 20%';
+  const vfn=document.getElementById('valueFeeNote');     if(vfn) vfn.textContent=t.valueFeeNote||'환급 없을 시 수수료 없음';
   // 주거형태
   const hl1=document.getElementById('houseLabel1'); if(hl1) hl1.textContent=t.houseLabel1||'월세';
   const hs1=document.getElementById('houseSub1');   if(hs1) hs1.textContent=t.houseSub1||'Monthly rent';
@@ -682,8 +746,8 @@ function go3(){
   if(!emp){show('err-emp');ok=false;}else hide('err-emp');
   const house = document.querySelector('input[name="house"]:checked');
   if(!house){show('err-house');ok=false;}else hide('err-house');
-  const privacy = document.querySelector('input[name="privacy"]:checked');
-  if(!privacy||privacy.value==='no'){show('err-privacy');ok=false;}else hide('err-privacy');
+  const privacyVal = document.getElementById('privacyValue').value;
+  if(!privacyVal||privacyVal==='no'){show('err-privacy');ok=false;}else hide('err-privacy');
   if(!S.uploads.rc){show('err-rc');ok=false;}else hide('err-rc');
   if(!ok) return;
   buildPOA();
@@ -730,13 +794,13 @@ function showSuccessMsg(){
 function buildPOA(){
   // 위임자 정보 채우기
   const today = new Date();
-  const dateStr = `${today.getFullYear()}년   ${today.getMonth()+1}월   ${today.getDate()}일`;
+  const poaDateStr = `${today.getFullYear()}년   ${today.getMonth()+1}월   ${today.getDate()}일`;
   const el = (id) => document.getElementById(id);
   if(el('poaName'))    el('poaName').textContent    = v('name');
   if(el('poaName2'))   el('poaName2').textContent   = v('name');
   if(el('poaArc'))     el('poaArc').textContent     = v('arcnum');
   if(el('poaCountry')) el('poaCountry').textContent = S.country;
-  if(el('poaDate'))    el('poaDate').textContent    = dateStr;
+  if(el('poaDate'))    el('poaDate').textContent    = poaDateStr;
 
   // 국가별 번역 삽입
   const p = POA[S.lang] || POA['en'];
@@ -750,9 +814,6 @@ function buildPOA(){
         <div style="font-size:10px;color:#333;line-height:1.6">
           ${p.scopeT}<br>
           ${p.scope.join('<br>')}
-        </div>
-        <div style="margin-top:6px;font-size:10px;background:#FFF8E8;padding:6px;border-left:2px solid #F5A623">
-          ${p.feeT} ${p.fee} (${p.feeNote})
         </div>
         <div style="margin-top:6px;font-size:10px;color:#666">${p.note}</div>
       </div>
@@ -835,67 +896,70 @@ async function doSubmit(){
     const houseEl = document.querySelector('input[name="house"]:checked');
     const houseVal= houseEl ? houseEl.value : '미선택';
     const today   = new Date();
-    const dateStr = `${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}${String(today.getDate()).padStart(2,'0')}`;
-    const safeName= v('name').replace(/[^a-zA-Z0-9가-힣]/g,'') || 'applicant';
-    const sigData = sigCanvas.toDataURL('image/png');
+    const yy = String(today.getFullYear()).slice(2);
+    const mm = String(today.getMonth()+1).padStart(2,'0');
+    const dd = String(today.getDate()).padStart(2,'0');
+    const dateCode = `${yy}${mm}${dd}`;
+    const dateKor  = `${today.getFullYear()}년   ${today.getMonth()+1}월   ${today.getDate()}일`;
+    const safeName = v('name').replace(/[^a-zA-Z0-9가-힣]/g,'') || 'applicant';
+    const sigData  = sigCanvas.toDataURL('image/png');
 
     // ── FormData ──
     const formData = new FormData();
-    formData.append('국가',        S.country);
-    formData.append('성명',        v('name'));
-    formData.append('등록번호',    v('arcnum'));
-    formData.append('연락처',      v('phone'));
-    formData.append('환급신청연도','2020~2024');
+    formData.append('국가',           S.country);
+    formData.append('성명',           v('name'));
+    formData.append('등록번호',       v('arcnum'));
+    formData.append('연락처',         v('phone'));
+    formData.append('환급신청연도',   '2020~2024');
     formData.append('근로소득자여부', empVal==='yes'?'근로소득자':'비근로소득자');
-    formData.append('주거형태',    houseVal);
-    formData.append('개인정보동의','동의');
+    formData.append('주거형태',       houseVal);
+    formData.append('개인정보동의',   '동의');
 
-    // ── 신청정보 요약 PDF ──
+    // ── 정보시트 (html2canvas) ──
+    const ib = (id) => document.getElementById(id);
+    ib('ib-name').textContent    = v('name');
+    ib('ib-arc').textContent     = v('arcnum');
+    ib('ib-phone').textContent   = v('phone');
+    ib('ib-country').textContent = S.country;
+    ib('ib-emp').textContent     = empVal==='yes'?'✅ 근로소득자':'❌ 비근로소득자';
+    ib('ib-house').textContent   = houseVal;
+    ib('ib-date').textContent    = `${today.getFullYear()}년 ${today.getMonth()+1}월 ${today.getDate()}일`;
+    // 서명 이미지 삽입
+    const sigImgEl = document.createElement('img');
+    sigImgEl.src = sigData; sigImgEl.style.maxHeight='70px'; sigImgEl.style.maxWidth='100%';
+    ib('ib-sig').innerHTML = ''; ib('ib-sig').appendChild(sigImgEl);
+
+    const infoBoxEl = document.getElementById('infoBox');
+    infoBoxEl.style.display = 'block';
+    const infoCanvas = await html2canvas(infoBoxEl, {
+      scale: 2, useCORS: true, allowTaint: true, backgroundColor:'#fff',
+      width: 794, logging: false
+    });
+    infoBoxEl.style.display = 'none';
+
     const { jsPDF } = window.jspdf;
     const infoPdf = new jsPDF({ orientation:'portrait', unit:'mm', format:'a4' });
-    const W2=210, M2=15;
-    infoPdf.setFillColor(11,31,58); infoPdf.rect(0,0,W2,22,'F');
-    infoPdf.setTextColor(245,166,35); infoPdf.setFont('helvetica','bold'); infoPdf.setFontSize(15);
-    infoPdf.text('Tax Refund Application - Info Summary', W2/2, 10, {align:'center'});
-    infoPdf.setTextColor(255,255,255); infoPdf.setFontSize(9);
-    infoPdf.text('세무회계 아진', W2/2, 18, {align:'center'});
+    const W2=210, M2=10;
+    const infoW = W2-M2*2;
+    const infoH = Math.min(infoW*(infoCanvas.height/infoCanvas.width), 277);
+    infoPdf.addImage(infoCanvas.toDataURL('image/png'), 'PNG', M2, M2, infoW, infoH);
 
-    const rows = [
-      ['Country (국가)',             S.country],
-      ['Name (성명)',                v('name')],
-      ['Reg. No. (등록번호)',        v('arcnum')],
-      ['Phone (연락처)',             v('phone')],
-      ['Refund Years (신청연도)',    '2020 ~ 2024'],
-      ['Employment (근로소득자)',    empVal==='yes'?'✅ 근로소득자':'❌ 비근로소득자'],
-      ['Housing (주거형태)',         houseVal],
-      ['Privacy Consent (동의)',     '✅ 동의'],
-      ['Date (신청일)',              today.toLocaleDateString('ko-KR')],
-    ];
-
-    let iy = 30;
-    rows.forEach((row, i) => {
-      const bg = i%2===0 ? [247,249,252] : [255,255,255];
-      infoPdf.setFillColor(...bg);
-      infoPdf.rect(M2, iy, W2-M2*2, 10, 'F');
-      infoPdf.setDrawColor(221,227,238); infoPdf.setLineWidth(0.2);
-      infoPdf.rect(M2, iy, W2-M2*2, 10, 'D');
-      infoPdf.setTextColor(132,146,166); infoPdf.setFont('helvetica','normal'); infoPdf.setFontSize(8);
-      infoPdf.text(row[0], M2+3, iy+6.5);
-      infoPdf.setTextColor(11,31,58); infoPdf.setFont('helvetica','bold'); infoPdf.setFontSize(9);
-      infoPdf.text(String(row[1]), M2+65, iy+6.5);
-      iy += 10;
-    });
-
-    iy += 6;
-    infoPdf.setTextColor(11,31,58); infoPdf.setFont('helvetica','bold'); infoPdf.setFontSize(9);
-    infoPdf.text('Signature (서명)', M2, iy);
-    iy += 4;
-    infoPdf.setDrawColor(221,227,238);
-    infoPdf.roundedRect(M2, iy, W2-M2*2, 25, 2, 2, 'D');
-    infoPdf.addImage(sigData, 'PNG', M2+2, iy+2, W2-M2*2-4, 21);
+    // 외국인등록증 2페이지
+    if(S.uploads.rc){
+      infoPdf.addPage();
+      infoPdf.setFillColor(11,31,58); infoPdf.rect(0,0,210,18,'F');
+      infoPdf.setTextColor(245,166,35); infoPdf.setFont('helvetica','bold'); infoPdf.setFontSize(12);
+      infoPdf.text('Residence Card', 105, 11, {align:'center'});
+      const img2=new Image(); img2.src=S.uploads.rc;
+      await new Promise(r=>{img2.onload=r; img2.onerror=r;});
+      const iw2=img2.naturalWidth, ih2=img2.naturalHeight;
+      let dw2=190, dh2=dw2*(ih2/iw2);
+      if(dh2>150){dh2=150; dw2=dh2*(iw2/ih2);}
+      infoPdf.addImage(S.uploads.rc,'JPEG',(210-dw2)/2, 24, dw2, dh2);
+    }
 
     const infoBlob = infoPdf.output('blob');
-    formData.append('attachment2', new File([infoBlob], `${safeName}_정보_${dateStr}.pdf`, {type:'application/pdf'}));
+    formData.append('attachment2', new File([infoBlob], `${dateCode}_${safeName}_정보.pdf`, {type:'application/pdf'}));
 
     // ── 위임장 PDF (html2canvas → A4 꽉 채우기) ──
     const pdf = new jsPDF({ orientation:'portrait', unit:'mm', format:'a4' });
@@ -951,7 +1015,7 @@ async function doSubmit(){
       pdf.text(`Name: ${v('name')}  |  Reg.No: ${v('arcnum')}  |  Country: ${S.country}`, W/2, 24+dh+8, {align:'center'});
     }
 
-    formData.append('attachment', new File([pdf.output('blob')], `${safeName}_위임장_${dateStr}.pdf`, {type:'application/pdf'}));
+    formData.append('attachment', new File([pdf.output('blob')], `${dateCode}_${safeName}_위임장.pdf`, {type:'application/pdf'}));
 
     const res = await fetch('https://formspree.io/f/xeevwllw', {
       method:'POST', body:formData, headers:{'Accept':'application/json'}
