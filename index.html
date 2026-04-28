@@ -743,20 +743,25 @@ async function doSubmit(){
   document.getElementById('loading').classList.add('show');
 
   try{
-    const formData = new FormData();
-    const empValSubmit = document.getElementById('empValue').value;
-    const house = document.querySelector('input[name="house"]:checked');
-    formData.append('국가', S.country);
-    formData.append('성명', v('name'));
-    formData.append('등록번호', v('arcnum'));
-    formData.append('연락처', v('phone'));
-    formData.append('환급신청연도', '2020~2024');
-    formData.append('근로소득자여부', empValSubmit==='yes'?'근로소득자':'비근로소득자');
-    formData.append('주거형태', house ? house.value : '미선택');
-    formData.append('개인정보동의', '동의');
-
-    // 서명 이미지
+    // ── 기본 변수 ──
+    const empVal  = document.getElementById('empValue').value;
+    const houseEl = document.querySelector('input[name="house"]:checked');
+    const houseVal= houseEl ? houseEl.value : '미선택';
+    const today   = new Date();
+    const dateStr = `${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}${String(today.getDate()).padStart(2,'0')}`;
+    const safeName= v('name').replace(/[^a-zA-Z0-9가-힣]/g,'') || 'applicant';
     const sigData = sigCanvas.toDataURL('image/png');
+
+    // ── FormData ──
+    const formData = new FormData();
+    formData.append('국가',        S.country);
+    formData.append('성명',        v('name'));
+    formData.append('등록번호',    v('arcnum'));
+    formData.append('연락처',      v('phone'));
+    formData.append('환급신청연도','2020~2024');
+    formData.append('근로소득자여부', empVal==='yes'?'근로소득자':'비근로소득자');
+    formData.append('주거형태',    houseVal);
+    formData.append('개인정보동의','동의');
 
     // ── 신청정보 요약 PDF ──
     const { jsPDF } = window.jspdf;
@@ -769,15 +774,15 @@ async function doSubmit(){
     infoPdf.text('세무회계 아진', W2/2, 18, {align:'center'});
 
     const rows = [
-      ['Country (국가)', S.country],
-      ['Name (성명)', v('name')],
-      ['Reg. No. (등록번호)', v('arcnum')],
-      ['Phone (연락처)', v('phone')],
-      ['Refund Years (신청연도)', '2020 ~ 2024'],
-      ['Employment (근로소득자)', empValSubmit==='yes'?'✅ 근로소득자 (Employee)':'❌ 비근로소득자'],
-      ['Housing (주거형태)', house ? house.value : '-'],
-      ['Privacy Consent (개인정보동의)', '✅ 동의'],
-      ['Date (신청일)', new Date().toLocaleDateString('ko-KR')],
+      ['Country (국가)',             S.country],
+      ['Name (성명)',                v('name')],
+      ['Reg. No. (등록번호)',        v('arcnum')],
+      ['Phone (연락처)',             v('phone')],
+      ['Refund Years (신청연도)',    '2020 ~ 2024'],
+      ['Employment (근로소득자)',    empVal==='yes'?'✅ 근로소득자':'❌ 비근로소득자'],
+      ['Housing (주거형태)',         houseVal],
+      ['Privacy Consent (동의)',     '✅ 동의'],
+      ['Date (신청일)',              today.toLocaleDateString('ko-KR')],
     ];
 
     let iy = 30;
@@ -794,7 +799,6 @@ async function doSubmit(){
       iy += 10;
     });
 
-    // 서명 미리보기
     iy += 6;
     infoPdf.setTextColor(11,31,58); infoPdf.setFont('helvetica','bold'); infoPdf.setFontSize(9);
     infoPdf.text('Signature (서명)', M2, iy);
@@ -804,94 +808,62 @@ async function doSubmit(){
     infoPdf.addImage(sigData, 'PNG', M2+2, iy+2, W2-M2*2-4, 21);
 
     const infoBlob = infoPdf.output('blob');
-    const safeName2 = v('name').replace(/[^a-zA-Z0-9가-힣]/g,'') || 'applicant';
-    const infoFile = new File([infoBlob], `${safeName2}_신청정보_${dateStr}.pdf`, {type:'application/pdf'});
-    formData.append('attachment2', infoFile);
+    formData.append('attachment2', new File([infoBlob], `${safeName}_신청정보_${dateStr}.pdf`, {type:'application/pdf'}));
 
-    // ── html2canvas로 위임장 캡처 → PDF ──
+    // ── 위임장 PDF (html2canvas) ──
     const pdf = new jsPDF({ orientation:'portrait', unit:'mm', format:'a4' });
-    const W = 210, M = 10;
+    const W=210, M=10;
 
-    // 위임장 박스 캡처 (폰트 CORS 허용)
     const poaEl = document.getElementById('poaBox');
     const poaCanvas = await html2canvas(poaEl, {
-      scale: 2,
-      useCORS: true,
-      allowTaint: true,
-      backgroundColor: '#ffffff',
-      logging: false,
-      onclone: (doc) => {
-        // 캡처 시 폰트 강제 적용
-        const el = doc.getElementById('poaBox');
-        if(el) el.style.fontFamily = 'Arial, sans-serif';
-      }
+      scale:2, useCORS:true, allowTaint:true, backgroundColor:'#ffffff', logging:false,
+      onclone:(doc)=>{ const el=doc.getElementById('poaBox'); if(el) el.style.fontFamily='Arial,sans-serif'; }
     });
     const poaImg = poaCanvas.toDataURL('image/png');
-    const poaW = W - M*2;
-    const poaH = poaW * (poaCanvas.height / poaCanvas.width);
+    const poaW   = W-M*2;
+    const poaH   = Math.min(poaW*(poaCanvas.height/poaCanvas.width), 200);
 
-    // 헤더
-    pdf.setFillColor(11,31,58);
-    pdf.rect(0,0,W,18,'F');
-    pdf.setTextColor(245,166,35);
-    pdf.setFont('helvetica','bold');
-    pdf.setFontSize(14);
+    pdf.setFillColor(11,31,58); pdf.rect(0,0,W,18,'F');
+    pdf.setTextColor(245,166,35); pdf.setFont('helvetica','bold'); pdf.setFontSize(14);
     pdf.text('Tax Refund - Power of Attorney', W/2, 8, {align:'center'});
-    pdf.setTextColor(255,255,255);
-    pdf.setFontSize(8);
+    pdf.setTextColor(255,255,255); pdf.setFontSize(8);
     pdf.text(`${S.country} | ${v('name')} | ${v('arcnum')}`, W/2, 15, {align:'center'});
 
-    // 위임장 이미지 삽입
-    let y = 22;
-    const maxH = 200;
-    const finalH = Math.min(poaH, maxH);
-    pdf.addImage(poaImg, 'PNG', M, y, poaW, finalH);
-    y += finalH + 6;
+    let y=22;
+    pdf.addImage(poaImg, 'PNG', M, y, poaW, poaH);
+    y += poaH+6;
 
-    // 서명
-    pdf.setFillColor(247,249,252);
-    pdf.roundedRect(M, y, W-M*2, 8, 2, 2, 'F');
+    pdf.setFillColor(247,249,252); pdf.roundedRect(M,y,W-M*2,8,2,2,'F');
     pdf.setTextColor(132,146,166); pdf.setFontSize(7);
     pdf.text('Signature', M+3, y+5);
-    y += 10;
+    y+=10;
     pdf.setDrawColor(221,227,238); pdf.setLineWidth(0.3);
-    pdf.roundedRect(M, y, W-M*2, 28, 2, 2, 'D');
-    pdf.addImage(sigData, 'PNG', M+2, y+2, W-M*2-4, 24);
-    y += 32;
-
-    // 날짜
-    const today = new Date();
+    pdf.roundedRect(M,y,W-M*2,28,2,2,'D');
+    pdf.addImage(sigData,'PNG',M+2,y+2,W-M*2-4,24);
+    y+=32;
     pdf.setFont('helvetica','normal'); pdf.setFontSize(8); pdf.setTextColor(100,100,100);
     pdf.text(`Date: ${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`, W-M, y, {align:'right'});
 
-    // 외국인등록증 2페이지
     if(S.uploads.rc){
       pdf.addPage();
       pdf.setFillColor(11,31,58); pdf.rect(0,0,W,18,'F');
       pdf.setTextColor(245,166,35); pdf.setFont('helvetica','bold'); pdf.setFontSize(12);
       pdf.text('Residence Card', W/2, 11, {align:'center'});
-      const img = new Image(); img.src = S.uploads.rc;
+      const img=new Image(); img.src=S.uploads.rc;
       await new Promise(r=>{img.onload=r; img.onerror=r;});
       const iw=img.naturalWidth, ih=img.naturalHeight;
-      const maxW=W-M*2, rcMaxH=150;
-      let dw=maxW, dh=dw*(ih/iw);
-      if(dh>rcMaxH){dh=rcMaxH; dw=dh*(iw/ih);}
-      pdf.addImage(S.uploads.rc,'JPEG',(W-dw)/2, 24, dw, dh);
+      const maxW=W-M*2; let dw=maxW, dh=dw*(ih/iw);
+      if(dh>150){dh=150; dw=dh*(iw/ih);}
+      pdf.addImage(S.uploads.rc,'JPEG',(W-dw)/2,24,dw,dh);
       pdf.setTextColor(132,146,166); pdf.setFont('helvetica','normal'); pdf.setFontSize(8);
       pdf.text(`Name: ${v('name')}  |  Reg.No: ${v('arcnum')}  |  Country: ${S.country}`, W/2, 24+dh+8, {align:'center'});
     }
 
-    const pdfBlob = pdf.output('blob');
-    const today2 = new Date();
-    const dateStr = `${today2.getFullYear()}${String(today2.getMonth()+1).padStart(2,'0')}${String(today2.getDate()).padStart(2,'0')}`;
-    const safeName = v('name').replace(/[^a-zA-Z0-9가-힣]/g,'') || 'applicant';
-    const pdfFile = new File([pdfBlob], `${safeName}_위임장_${dateStr}.pdf`, {type:'application/pdf'});
-    formData.append('attachment', pdfFile);
+    formData.append('attachment', new File([pdf.output('blob')], `${safeName}_위임장_${dateStr}.pdf`, {type:'application/pdf'}));
 
     const res = await fetch('https://formspree.io/f/xeevwllw', {
       method:'POST', body:formData, headers:{'Accept':'application/json'}
     });
-
     document.getElementById('loading').classList.remove('show');
     if(res.ok){
       document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
@@ -904,9 +876,10 @@ async function doSubmit(){
   } catch(e){
     console.error(e);
     document.getElementById('loading').classList.remove('show');
-    alert('오류가 발생했습니다: ' + e.message);
+    alert('오류: ' + e.message);
   }
 }
+
 </script>
 </body>
 </html>
