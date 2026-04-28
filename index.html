@@ -336,10 +336,13 @@ canvas#sigPad{display:block;width:100%;height:130px;touch-action:none}
         <div id="poaDate" style="text-align:center;font-size:13px;margin-bottom:20px;font-weight:600"></div>
 
         <!-- 서명란 -->
-        <div style="display:flex;justify-content:flex-end;align-items:center;gap:16px;margin-bottom:8px">
+        <div style="display:flex;justify-content:flex-end;align-items:flex-end;gap:16px;margin-bottom:8px">
           <div style="font-size:13px;font-weight:600">위임자 :</div>
-          <div id="poaName2" style="font-size:13px;min-width:80px;border-bottom:1px solid #333;padding-bottom:2px;font-weight:700"></div>
-          <div style="font-size:12px;color:#666">(서명 또는 인)</div>
+          <div style="position:relative;min-width:120px;text-align:center">
+            <div id="poaSigImg" style="height:50px;display:flex;align-items:center;justify-content:center"></div>
+            <div id="poaName2" style="font-size:12px;border-top:1px solid #333;padding-top:2px;color:#333"></div>
+          </div>
+          <div style="font-size:12px;color:#666;padding-bottom:2px">(서명 또는 인)</div>
         </div>
 
         <!-- 구분선 -->
@@ -350,7 +353,10 @@ canvas#sigPad{display:block;width:100%;height:130px;touch-action:none}
       </div>
     </div>
     <div class="field">
-      <label>서명 Signature <span style="font-size:10px;font-weight:400">(손가락으로 서명)</span></label>
+      <label>서명 Signature</label>
+      <div style="background:#F0F4FF;border-left:3px solid var(--blue);border-radius:0 8px 8px 0;padding:8px 12px;margin-bottom:8px;font-size:12px;color:var(--navy)" id="sigInstruction">
+        ✍️ 정자로 성함을 기재해주세요 · Please print your full name clearly
+      </div>
       <div class="sig-wrap">
         <canvas id="sigPad" width="400" height="130"></canvas>
         <div class="sig-hint" id="sigHint">✍️ 여기에 서명해 주세요</div>
@@ -384,8 +390,8 @@ canvas#sigPad{display:block;width:100%;height:130px;touch-action:none}
       <tr><td style="background:#f0f4ff;border:1px solid #ccc;padding:8px 12px;font-weight:700;color:#0B1F3A">신 청 일 자</td><td id="ib-date" style="border:1px solid #ccc;padding:8px 12px"></td></tr>
     </table>
     <div style="border-top:1px solid #ccc;padding-top:16px;margin-bottom:8px">
-      <div style="font-size:12px;font-weight:700;color:#0B1F3A;margin-bottom:6px">서명 (Signature)</div>
-      <div id="ib-sig" style="border:1px solid #ccc;border-radius:6px;padding:6px;text-align:center;height:80px;display:flex;align-items:center;justify-content:center"></div>
+      <div style="font-size:12px;font-weight:700;color:#0B1F3A;margin-bottom:6px">Residence Card (외국인등록증)</div>
+      <div id="ib-rc" style="border:1px solid #ccc;border-radius:6px;text-align:center;overflow:hidden;min-height:60px;display:flex;align-items:center;justify-content:center"></div>
     </div>
   </div>
 </div>
@@ -425,6 +431,7 @@ const LANG_TEXT = {
   zh: {
     empYes: '✅ 工薪所得者（受雇员工） (근로소득자)', empYesSub: '在公司工作并领取工资的人员',
     empNo: '❌ 非工薪所得者 (비근로소득자)', empNoSub: '经营所得、其他所得等',
+    sigInstruction: '✍️ 请正楷书写您的姓名 (정자로 성함을 기재해주세요)',
     labelRefundYears: '退税申请年度 (환급 신청 연도)', valueRefundYears: '📅 2020年 ~ 2024年 (5년치)',
     labelFee: '服务费 (환급 수수료)', valueFee: '💰 实际退税额的20%', valueFeeNote: '如无退税，则不产生服务费 (환급 없을 시 수수료 없음)',
     houseLabel1: '月租 (월세)', houseSub1: '每月支付租金',
@@ -440,6 +447,7 @@ const LANG_TEXT = {
   vi: {
     empYes: '✅ Người có thu nhập từ việc làm (근로소득자)', empYesSub: 'Người được thuê và nhận lương từ công ty',
     empNo: '❌ Không phải người có thu nhập từ việc làm (비근로소득자)', empNoSub: 'Thu nhập kinh doanh, thu nhập khác, v.v.',
+    sigInstruction: '✍️ Vui lòng viết rõ ràng họ tên của bạn (정자로 성함을 기재해주세요)',
     labelRefundYears: 'Năm hoàn thuế (환급 신청 연도)', valueRefundYears: '📅 2020 ~ 2024 (5년치)',
     labelFee: 'Phí dịch vụ (환급 수수료)', valueFee: '💰 20% số tiền hoàn thuế thực tế', valueFeeNote: 'Không có hoàn thuế = Không mất phí (환급 없을 시 수수료 없음)',
     houseLabel1: 'Thuê tháng (월세)', houseSub1: 'Trả tiền thuê hàng tháng',
@@ -455,6 +463,7 @@ const LANG_TEXT = {
   en: {
     empYes: '✅ Employment Income Earner (근로소득자)', empYesSub: 'Employed by a company and receiving salary',
     empNo: '❌ Non-Employment Income (비근로소득자)', empNoSub: 'Business income, other income, etc.',
+    sigInstruction: '✍️ Please print your full name clearly (정자로 성함을 기재해주세요)',
     labelRefundYears: 'Refund Years (환급 신청 연도)', valueRefundYears: '📅 2020 ~ 2024 (5 years)',
     labelFee: 'Service Fee (환급 수수료)', valueFee: '💰 20% of actual refund amount', valueFeeNote: 'No refund = No fee (환급 없을 시 수수료 없음)',
     houseLabel1: 'Monthly Rent (월세)', houseSub1: 'Pay rent monthly',
@@ -470,6 +479,7 @@ const LANG_TEXT = {
   th: {
     empYes: '✅ ผู้มีรายได้จากการจ้างงาน (근로소득자)', empYesSub: 'ทำงานในบริษัทและได้รับเงินเดือน',
     empNo: '❌ ไม่ใช่ผู้มีรายได้จากการจ้างงาน (비근로소득자)', empNoSub: 'รายได้จากธุรกิจ, รายได้อื่น ฯลฯ',
+    sigInstruction: '✍️ กรุณาเขียนชื่อของคุณอย่างชัดเจน (정자로 성함을 기재해주세요)',
     labelRefundYears: 'ปีขอคืนภาษี (환급 신청 연도)', valueRefundYears: '📅 2020 ~ 2024 (5년치)',
     labelFee: 'ค่าบริการ (환급 수수료)', valueFee: '💰 20% ของยอดเงินคืนภาษีจริง', valueFeeNote: 'ไม่มีคืนเงิน = ไม่มีค่าธรรมเนียม (환급 없을 시 수수료 없음)',
     houseLabel1: 'เช่ารายเดือน (월세)', houseSub1: 'จ่ายค่าเช่ารายเดือน',
@@ -485,6 +495,7 @@ const LANG_TEXT = {
   uz: {
     empYes: "✅ Ish haqi oluvchi xodim (근로소득자)", empYesSub: "Kompaniyada ishlaydi va maosh oladi",
     empNo: "❌ Ish haqi bo'lmagan daromad (비근로소득자)", empNoSub: "Biznes daromadi, boshqa daromadlar",
+    sigInstruction: "✍️ Iltimos, to'liq ismingizni aniq yozing (정자로 성함을 기재해주세요)",
     labelRefundYears: "Qaytarish yillari (환급 신청 연도)", valueRefundYears: "📅 2020 ~ 2024 (5 yil)",
     labelFee: "Xizmat haqi (환급 수수료)", valueFee: "💰 Haqiqiy qaytarish miqdorining 20%", valueFeeNote: "Qaytarilmasa haq yo'q (환급 없을 시 수수료 없음)",
     houseLabel1: "Oylik ijara (월세)", houseSub1: "Har oy ijara to'lash",
@@ -500,6 +511,7 @@ const LANG_TEXT = {
   tl: {
     empYes: '✅ May Kita mula sa Trabaho (근로소득자)', empYesSub: 'Employed sa isang kumpanya at tumatanggap ng sahod',
     empNo: '❌ Walang Kita mula sa Trabaho (비근로소득자)', empNoSub: 'Kita sa negosyo, ibang kita, atbp.',
+    sigInstruction: '✍️ Mangyaring isulat ang inyong buong pangalan nang malinaw (정자로 성함을 기재해주세요)',
     labelRefundYears: 'Taon ng Refund (환급 신청 연도)', valueRefundYears: '📅 2020 ~ 2024 (5 taon)',
     labelFee: 'Bayad sa Serbisyo (환급 수수료)', valueFee: '💰 20% ng aktwal na halaga ng refund', valueFeeNote: 'Walang refund = Walang bayad (환급 없을 시 수수료 없음)',
     houseLabel1: 'Buwanang Upa (월세)', houseSub1: 'Nagbabayad ng upa bawat buwan',
@@ -515,6 +527,7 @@ const LANG_TEXT = {
   ja: {
     empYes: '✅ 給与所得者 (근로소득자)', empYesSub: '会社に雇用され給与を受け取っている方',
     empNo: '❌ 給与所得者以外 (비근로소득자)', empNoSub: '事業所得・その他所得等',
+    sigInstruction: '✍️ お名前を楷書体でご記入ください (정자로 성함을 기재해주세요)',
     labelRefundYears: '還付申告年度 (환급 신청 연도)', valueRefundYears: '📅 2020年 ~ 2024年 (5년치)',
     labelFee: '手数料 (환급 수수료)', valueFee: '💰 実際の還付税額の20%', valueFeeNote: '還付なし＝手数料なし (환급 없을 시 수수료 없음)',
     houseLabel1: '月額賃貸 (월세)', houseSub1: '毎月家賃を支払う',
@@ -530,6 +543,7 @@ const LANG_TEXT = {
   ne: {
     empYes: '✅ रोजगारी आयकर्ता (근로소득자)', empYesSub: 'कम्पनीमा कार्यरत र तलब प्राप्त गर्ने व्यक्ति',
     empNo: '❌ गैर-रोजगारी आयकर्ता (비근로소득자)', empNoSub: 'व्यापार आय, अन्य आय आदि',
+    sigInstruction: '✍️ कृपया आफ्नो पूरा नाम स्पष्ट रूपमा लेख्नुहोस् (정자로 성함을 기재해주세요)',
     labelRefundYears: 'फिर्ता अनुरोध वर्ष (환급 신청 연도)', valueRefundYears: '📅 २०२० ~ २०२४ (5년치)',
     labelFee: 'सेवा शुल्क (환급 수수료)', valueFee: '💰 वास्तविक फिर्ता रकमको २०%', valueFeeNote: 'फिर्ता नभए शुल्क छैन (환급 없을 시 수수료 없음)',
     houseLabel1: 'मासिक भाडा (월세)', houseSub1: 'मासिक भाडा तिर्ने',
@@ -545,6 +559,7 @@ const LANG_TEXT = {
   id: {
     empYes: '✅ Penerima Penghasilan dari Pekerjaan (근로소득자)', empYesSub: 'Dipekerjakan oleh perusahaan dan menerima gaji',
     empNo: '❌ Bukan Penerima Penghasilan dari Pekerjaan (비근로소득자)', empNoSub: 'Penghasilan usaha, penghasilan lainnya, dll.',
+    sigInstruction: '✍️ Harap tulis nama lengkap Anda dengan jelas (정자로 성함을 기재해주세요)',
     labelRefundYears: 'Tahun Permohonan Refund (환급 신청 연도)', valueRefundYears: '📅 2020 ~ 2024 (5 tahun)',
     labelFee: 'Biaya Layanan (환급 수수료)', valueFee: '💰 20% dari jumlah pengembalian aktual', valueFeeNote: 'Tidak ada pengembalian = Tidak ada biaya (환급 없을 시 수수료 없음)',
     houseLabel1: 'Sewa Bulanan (월세)', houseSub1: 'Membayar sewa bulanan',
@@ -622,6 +637,9 @@ function applyLangText() {
   if(empYesSubEl) empYesSubEl.textContent = t.empYesSub;
   if(empNoEl) empNoEl.textContent = t.empNo;
   if(empNoSubEl) empNoSubEl.textContent = t.empNoSub;
+  // 서명 안내
+  const si=document.getElementById('sigInstruction');
+  if(si) si.textContent=t.sigInstruction||'✍️ 정자로 성함을 기재해주세요 · Please print your full name clearly';
   // 환급 신청 연도 & 수수료
   const lry=document.getElementById('labelRefundYears'); if(lry) lry.textContent=t.labelRefundYears||'환급 신청 연도 · Refund Years';
   const vry=document.getElementById('valueRefundYears'); if(vry) vry.textContent=t.valueRefundYears||'📅 2020년 ~ 2024년 (5년치)';
@@ -901,7 +919,18 @@ async function doSubmit(){
     const dd = String(today.getDate()).padStart(2,'0');
     const dateCode = `${yy}${mm}${dd}`;
     const dateKor  = `${today.getFullYear()}년   ${today.getMonth()+1}월   ${today.getDate()}일`;
-    const safeName = v('name').replace(/[^a-zA-Z0-9가-힣]/g,'') || 'applicant';
+    const rawName  = v('name');
+    const safeName = rawName.replace(/\s+/g,'') || 'applicant';
+
+    // 위임장 서명란에 서명 이미지 삽입
+    const poaSigEl = document.getElementById('poaSigImg');
+    if(poaSigEl){
+      const sImg = document.createElement('img');
+      sImg.src = sigData; sImg.style.maxHeight='48px'; sImg.style.maxWidth='120px';
+      poaSigEl.innerHTML=''; poaSigEl.appendChild(sImg);
+    }
+    const poaName2El = document.getElementById('poaName2');
+    if(poaName2El) poaName2El.textContent = rawName;
     const sigData  = sigCanvas.toDataURL('image/png');
 
     // ── FormData ──
@@ -917,17 +946,25 @@ async function doSubmit(){
 
     // ── 정보시트 (html2canvas) ──
     const ib = (id) => document.getElementById(id);
-    ib('ib-name').textContent    = v('name');
+    ib('ib-name').textContent    = rawName;
     ib('ib-arc').textContent     = v('arcnum');
     ib('ib-phone').textContent   = v('phone');
     ib('ib-country').textContent = S.country;
     ib('ib-emp').textContent     = empVal==='yes'?'✅ 근로소득자':'❌ 비근로소득자';
     ib('ib-house').textContent   = houseVal;
     ib('ib-date').textContent    = `${today.getFullYear()}년 ${today.getMonth()+1}월 ${today.getDate()}일`;
-    // 서명 이미지 삽입
-    const sigImgEl = document.createElement('img');
-    sigImgEl.src = sigData; sigImgEl.style.maxHeight='70px'; sigImgEl.style.maxWidth='100%';
-    ib('ib-sig').innerHTML = ''; ib('ib-sig').appendChild(sigImgEl);
+    // 외국인등록증 이미지 삽입
+    const ibRc = document.getElementById('ib-rc');
+    if(ibRc && S.uploads.rc){
+      const rcImg = document.createElement('img');
+      rcImg.src = S.uploads.rc;
+      rcImg.style.cssText = 'max-width:100%;max-height:200px;object-fit:contain;';
+      ibRc.innerHTML=''; ibRc.appendChild(rcImg);
+    } else if(ibRc){
+      ibRc.textContent = '(미첨부)';
+      ibRc.style.padding = '20px';
+      ibRc.style.color = '#999';
+    }
 
     const infoBoxEl = document.getElementById('infoBox');
     infoBoxEl.style.display = 'block';
@@ -960,7 +997,6 @@ async function doSubmit(){
 
     const infoBlob = infoPdf.output('blob');
     formData.append('attachment2', new File([infoBlob], `${dateCode}_${safeName}_정보.pdf`, {type:'application/pdf'}));
-
     // ── 위임장 PDF (html2canvas → A4 꽉 채우기) ──
     const pdf = new jsPDF({ orientation:'portrait', unit:'mm', format:'a4' });
     const W=210, H=297, M=12;
@@ -989,34 +1025,40 @@ async function doSubmit(){
     const poaH   = poaW * (poaCanvas.height / poaCanvas.width);
     const finalH = Math.min(poaH, H - M*2);
 
-    // 헤더 없이 위임장만 A4에 꽉 채우기
+    // 헤더 없이 위임장만 A4에 꽉 채우기 (서명은 poaBox HTML에 이미 포함됨)
     pdf.addImage(poaImg, 'PNG', M, M, poaW, finalH);
 
-    // 서명 (위임장 아래 여백에)
-    const sigY = M + finalH + 6;
-    if(sigY + 30 < H - M){
-      pdf.setDrawColor(180,180,180); pdf.setLineWidth(0.3);
-      pdf.roundedRect(M, sigY, W-M*2, 28, 2, 2, 'D');
-      pdf.addImage(sigData, 'PNG', M+2, sigY+2, W-M*2-4, 24);
-    }
-
+    // 외국인등록증 - 여백 있으면 같은 페이지, 없으면 다음 페이지
     if(S.uploads.rc){
-      pdf.addPage();
-      pdf.setFillColor(11,31,58); pdf.rect(0,0,W,18,'F');
-      pdf.setTextColor(245,166,35); pdf.setFont('helvetica','bold'); pdf.setFontSize(12);
-      pdf.text('Residence Card', W/2, 11, {align:'center'});
+      const rcY = M + finalH + 8;
       const img=new Image(); img.src=S.uploads.rc;
       await new Promise(r=>{img.onload=r; img.onerror=r;});
       const iw=img.naturalWidth, ih=img.naturalHeight;
-      const maxW=W-M*2; let dw=maxW, dh=dw*(ih/iw);
-      if(dh>150){dh=150; dw=dh*(iw/ih);}
-      pdf.addImage(S.uploads.rc,'JPEG',(W-dw)/2,24,dw,dh);
-      pdf.setTextColor(132,146,166); pdf.setFont('helvetica','normal'); pdf.setFontSize(8);
-      pdf.text(`Name: ${v('name')}  |  Reg.No: ${v('arcnum')}  |  Country: ${S.country}`, W/2, 24+dh+8, {align:'center'});
+      const maxW=W-M*2;
+      const remainH = H - rcY - M;
+      let dw=maxW, dh=dw*(ih/iw);
+      if(dh>remainH && remainH > 30){
+        dh=remainH; dw=dh*(iw/ih);
+      } else if(dh>remainH){
+        // 여백 부족 → 새 페이지
+        pdf.addPage();
+        const ny=M;
+        dh=Math.min(dw*(ih/iw), H-ny*2);
+        pdf.addImage(S.uploads.rc,'JPEG',(W-dw)/2, ny, dw, dh);
+        pdf.setTextColor(132,146,166); pdf.setFont('helvetica','normal'); pdf.setFontSize(7);
+        pdf.text(`Residence Card  |  ${v('name')}  |  ${v('arcnum')}`, W/2, ny+dh+6, {align:'center'});
+        pdf.addImage(S.uploads.rc,'JPEG',(W-dw)/2, M, dw, dh); // 중복방지용 skip
+      } else {
+        // 같은 페이지에 넣기
+        pdf.setDrawColor(200,200,200); pdf.setLineWidth(0.2);
+        pdf.rect(M, rcY, W-M*2, dh+4, 'D');
+        pdf.addImage(S.uploads.rc,'JPEG',(W-dw)/2, rcY+2, dw, dh);
+        pdf.setTextColor(132,146,166); pdf.setFont('helvetica','normal'); pdf.setFontSize(7);
+        pdf.text('Residence Card', W/2, rcY+dh+8, {align:'center'});
+      }
     }
 
     formData.append('attachment', new File([pdf.output('blob')], `${dateCode}_${safeName}_위임장.pdf`, {type:'application/pdf'}));
-
     const res = await fetch('https://formspree.io/f/xeevwllw', {
       method:'POST', body:formData, headers:{'Accept':'application/json'}
     });
