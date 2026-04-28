@@ -1,495 +1,410 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Tax Refund – 세무회계 아진</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<title>세금환급 신청 – 세무회계 아진</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root {
-  --navy:#0B1F3A; --blue:#1A56A0; --gold:#F5A623; --gold-light:#FFF3D6;
-  --green:#22C55E; --green-light:#F0FDF4; --bg:#F7F9FC; --white:#FFFFFF;
-  --gray:#8492A6; --border:#DDE3EE; --error:#EF4444; --radius:16px;
-  --shadow:0 4px 24px rgba(11,31,58,0.10);
-}
+:root{--navy:#0B1F3A;--blue:#1A56A0;--gold:#F5A623;--gold-light:#FFF3D6;--green:#22C55E;--green-light:#F0FDF4;--bg:#F7F9FC;--white:#fff;--gray:#8492A6;--border:#DDE3EE;--error:#EF4444;--radius:14px;--shadow:0 4px 24px rgba(11,31,58,.10)}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);min-height:100vh;color:var(--navy)}
 
-.header{background:var(--navy);padding:20px 20px 24px;position:relative;overflow:hidden}
-.header::before{content:'';position:absolute;top:-40px;right:-40px;width:160px;height:160px;border-radius:50%;background:rgba(245,166,35,0.12)}
-.header::after{content:'';position:absolute;bottom:-20px;left:30%;width:100px;height:100px;border-radius:50%;background:rgba(26,86,160,0.3)}
-.header-badge{display:inline-block;background:var(--gold);color:var(--navy);font-family:'Syne',sans-serif;font-weight:700;font-size:11px;letter-spacing:.08em;padding:4px 10px;border-radius:20px;margin-bottom:10px;position:relative;z-index:1}
-.header h1{font-family:'Syne',sans-serif;font-weight:800;font-size:26px;color:#fff;line-height:1.2;position:relative;z-index:1}
-.header h1 span{color:var(--gold)}
-.header-sub{color:rgba(255,255,255,.65);font-size:13px;margin-top:6px;position:relative;z-index:1}
-.firm-tag{display:flex;align-items:center;gap:6px;margin-top:14px;position:relative;z-index:1}
-.firm-dot{width:6px;height:6px;background:var(--gold);border-radius:50%}
-.firm-name{color:rgba(255,255,255,.5);font-size:11px;letter-spacing:.05em}
+.hd{background:var(--navy);padding:20px 20px 22px;position:relative;overflow:hidden}
+.hd::before{content:'';position:absolute;top:-40px;right:-40px;width:150px;height:150px;border-radius:50%;background:rgba(245,166,35,.12)}
+.hd-badge{display:inline-block;background:var(--gold);color:var(--navy);font-family:'Syne',sans-serif;font-weight:700;font-size:11px;letter-spacing:.08em;padding:4px 10px;border-radius:20px;margin-bottom:10px;position:relative;z-index:1}
+.hd h1{font-family:'Syne',sans-serif;font-weight:800;font-size:25px;color:#fff;line-height:1.2;position:relative;z-index:1}
+.hd h1 span{color:var(--gold)}
+.hd-sub{color:rgba(255,255,255,.6);font-size:12px;margin-top:6px;position:relative;z-index:1}
+.hd-firm{display:flex;align-items:center;gap:6px;margin-top:12px;position:relative;z-index:1}
+.hd-dot{width:5px;height:5px;background:var(--gold);border-radius:50%}
+.hd-nm{color:rgba(255,255,255,.45);font-size:11px}
 
-.steps{display:flex;align-items:center;justify-content:center;padding:18px 12px 4px}
-.step-item{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1}
-.step-circle{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;font-size:12px;transition:all .3s;background:var(--border);color:var(--gray)}
-.step-circle.active{background:var(--blue);color:white}
-.step-circle.done{background:var(--green);color:white;font-size:11px}
-.step-label{font-size:9px;color:var(--gray);font-weight:500;text-align:center}
-.step-label.active{color:var(--blue);font-weight:600}
-.step-line{flex:1;height:2px;background:var(--border);margin-bottom:16px;transition:background .3s}
-.step-line.done{background:var(--green)}
+.steps{display:flex;align-items:center;justify-content:center;padding:16px 16px 4px}
+.si{display:flex;flex-direction:column;align-items:center;gap:3px;flex:1}
+.sc{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;font-size:12px;transition:all .3s;background:var(--border);color:var(--gray)}
+.sc.active{background:var(--blue);color:#fff}
+.sc.done{background:var(--green);color:#fff}
+.sl{font-size:9px;color:var(--gray);font-weight:500;text-align:center}
+.sl.active{color:var(--blue);font-weight:600}
+.sline{flex:1;height:2px;background:var(--border);margin-bottom:14px;transition:background .3s}
+.sline.done{background:var(--green)}
 
-.card{margin:14px;background:var(--white);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
-.section-title{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;color:var(--navy);margin-bottom:14px;display:flex;align-items:center;gap:8px}
-.section-title .num{background:var(--navy);color:white;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0}
+.card{margin:12px 14px;background:var(--white);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
+.stitle{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;color:var(--navy);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.stitle .num{background:var(--navy);color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0}
 
-.country-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.country-btn{display:flex;align-items:center;gap:10px;padding:12px 14px;border:1.5px solid var(--border);border-radius:12px;cursor:pointer;transition:all .18s;background:var(--white);font-family:'DM Sans',sans-serif;font-size:14px;color:var(--navy);font-weight:500;-webkit-appearance:none;text-align:left}
-.country-btn.selected{background:var(--navy);border-color:var(--navy);color:white}
-.country-flag{font-size:22px;flex-shrink:0}
+/* Country grid */
+.cgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
+.cbtn{display:flex;align-items:center;gap:10px;padding:12px 13px;border:1.5px solid var(--border);border-radius:11px;cursor:pointer;transition:all .18s;background:var(--white);font-family:'DM Sans',sans-serif;font-size:13px;color:var(--navy);font-weight:500;-webkit-appearance:none;text-align:left;width:100%}
+.cbtn.selected{background:var(--navy);border-color:var(--navy);color:#fff}
+.cbtn.selected .csub{opacity:.7}
+.cflag-wrap{width:40px;height:28px;flex-shrink:0;border-radius:4px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.2);display:flex;align-items:center;justify-content:center;background:#eee}
+.cflag-img{width:100%;height:100%;object-fit:cover;display:block}
+.cflag-em{font-size:22px;line-height:1}
+.cname{line-height:1.3;font-size:13px}
+.csub{font-size:10px;opacity:.55;display:block;margin-top:1px}
 
-.qa-card{border:1.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:12px;transition:border-color .2s}
-.qa-card.answered{border-color:var(--green);background:var(--green-light)}
-.qa-question{font-size:14px;font-weight:500;color:var(--navy);margin-bottom:6px;line-height:1.4}
-.qa-sub{font-size:12px;color:var(--gray);margin-bottom:10px;line-height:1.4}
-.qa-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.qa-btn{padding:10px;border:1.5px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .18s;background:var(--white);-webkit-appearance:none}
-.qa-btn.yes.selected{background:#DCFCE7;border-color:var(--green);color:#166534}
-.qa-btn.no.selected{background:#FEF2F2;border-color:#FCA5A5;color:#991B1B}
-.qa-result{display:none;margin-top:8px;font-size:12px;padding:8px 10px;border-radius:8px;line-height:1.5}
-.qa-result.show{display:block}
-.qa-result.good{background:#DCFCE7;color:#166534}
-.qa-result.bad{background:#FEF2F2;color:#991B1B}
+/* Hook box */
+.hook-box{border-radius:14px;padding:18px;margin-bottom:16px;position:relative;overflow:hidden}
+.hook-box::before{content:'';position:absolute;top:-20px;right:-20px;width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,.15)}
+.hook-flag{font-size:36px;margin-bottom:8px;display:block}
+.hook-q{font-size:17px;font-weight:700;line-height:1.4;margin-bottom:6px}
+.hook-a{font-size:13px;opacity:.9;line-height:1.5;margin-bottom:8px}
+.hook-badge{display:inline-block;background:rgba(255,255,255,.25);font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px}
 
-.field{margin-bottom:14px}
-.field label{display:block;font-size:12px;font-weight:500;color:var(--gray);letter-spacing:.04em;text-transform:uppercase;margin-bottom:6px}
-.field input{width:100%;padding:13px 14px;border:1.5px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:15px;color:var(--navy);background:var(--white);transition:border-color .2s;-webkit-appearance:none}
+/* Field */
+.field{margin-bottom:13px}
+.field label{display:block;font-size:11px;font-weight:500;color:var(--gray);letter-spacing:.04em;text-transform:uppercase;margin-bottom:5px}
+.field input{width:100%;padding:12px 13px;border:1.5px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:15px;color:var(--navy);background:var(--white);-webkit-appearance:none;transition:border-color .2s}
 .field input:focus{outline:none;border-color:var(--blue)}
 .field input::placeholder{color:#C0C8D4}
-.field .hint{font-size:11px;color:var(--gray);margin-top:4px}
+.hint{font-size:11px;color:var(--gray);margin-top:3px}
 
-.years-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:6px}
-.year-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;border:1.5px solid var(--border);border-radius:10px;padding:10px 4px;cursor:pointer;transition:all .2s;background:var(--white)}
-.year-btn.selected{background:var(--navy);border-color:var(--navy);color:white}
-.year-btn input{display:none}
-.year-num{font-family:'Syne',sans-serif;font-weight:700;font-size:13px}
-.year-check{font-size:10px;margin-top:2px;opacity:0;transition:opacity .2s}
-.year-btn.selected .year-check{opacity:1}
+/* Upload */
+.uarea{border:2px dashed var(--border);border-radius:11px;padding:18px 14px;text-align:center;cursor:pointer;transition:all .2s;position:relative;background:var(--bg)}
+.uarea:active{background:var(--gold-light);border-color:var(--gold)}
+.uarea input[type="file"]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.uicon{font-size:26px;margin-bottom:5px}
+.utxt{font-size:13px;font-weight:500;color:var(--navy)}
+.usub{font-size:11px;color:var(--gray);margin-top:3px}
+.uprev{width:100%;max-height:120px;object-fit:cover;border-radius:8px;margin-top:8px;display:none}
+.udone{display:none;align-items:center;justify-content:center;gap:6px;margin-top:7px;font-size:12px;color:var(--green);font-weight:500}
 
-.doc-section{margin-bottom:16px}
-.doc-title{font-size:13px;font-weight:600;color:var(--navy);margin-bottom:6px;display:flex;align-items:center;gap:6px}
-.doc-badge{font-size:10px;padding:2px 7px;border-radius:10px;font-weight:600}
-.doc-badge.required{background:#FEE2E2;color:#991B1B}
-.doc-badge.optional{background:#DBEAFE;color:#1E40AF}
-.upload-area{border:2px dashed var(--border);border-radius:12px;padding:18px 14px;text-align:center;cursor:pointer;transition:all .2s;position:relative;background:var(--bg)}
-.upload-area:active{background:var(--gold-light);border-color:var(--gold)}
-.upload-area input[type="file"]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
-.upload-icon{font-size:26px;margin-bottom:6px}
-.upload-text{font-size:13px;font-weight:500;color:var(--navy)}
-.upload-sub{font-size:11px;color:var(--gray);margin-top:3px}
-.upload-preview{width:100%;max-height:130px;object-fit:cover;border-radius:8px;margin-top:8px;display:none}
-.upload-done{display:none;align-items:center;justify-content:center;gap:6px;margin-top:8px;font-size:12px;color:var(--green);font-weight:500}
-.doc-hint{font-size:11px;color:var(--gray);line-height:1.5;margin-top:5px;background:var(--bg);padding:8px 10px;border-radius:8px}
+/* POA */
+.poa{border:1.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:14px;background:var(--bg)}
+.poa-kr{margin-bottom:12px;padding-bottom:12px;border-bottom:2px solid var(--navy)}
+.poa-title{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:var(--navy);text-align:center;margin-bottom:2px}
+.poa-sub{text-align:center;font-size:11px;color:var(--gray);margin-bottom:10px}
+.poa-grid{display:grid;grid-template-columns:52px 1fr;gap:3px 8px;margin-bottom:10px;padding-bottom:10px;border-bottom:1px dashed var(--border);font-size:12px}
+.poa-lbl{color:var(--gray);font-size:11px}
+.poa-val{font-weight:500;color:var(--navy)}
+.poa-body{font-size:12px;line-height:1.8;color:#444;margin-bottom:9px}
+.poa-scope{background:#fff;border-radius:8px;padding:9px 11px;margin-bottom:9px;font-size:12px;line-height:1.8}
+.poa-scope-t{font-size:11px;color:var(--gray);margin-bottom:3px}
+.poa-fee{background:var(--gold-light);border-radius:8px;padding:9px 11px;border-left:3px solid var(--gold);margin-bottom:9px;font-size:12px}
+.poa-fee-t{font-size:11px;color:var(--gray);margin-bottom:3px}
+.poa-note{font-size:11px;color:var(--gray);line-height:1.6}
+.lang-badge{display:inline-block;background:var(--navy);color:var(--gold);font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;margin-bottom:8px}
 
-.sig-wrap{border:1.5px solid var(--border);border-radius:12px;overflow:hidden;position:relative;background:#FAFBFC}
-.sig-label{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:13px;color:#C0C8D4;pointer-events:none;transition:opacity .3s;text-align:center}
+/* Sig */
+.sig-wrap{border:1.5px solid var(--border);border-radius:11px;overflow:hidden;position:relative;background:#FAFBFC}
+.sig-hint{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:13px;color:#C0C8D4;pointer-events:none;transition:opacity .3s;text-align:center}
 canvas#sigPad{display:block;width:100%;height:130px;touch-action:none}
-.sig-actions{display:flex;justify-content:flex-end;padding:6px 10px;border-top:1px solid var(--border);background:var(--white)}
+.sig-actions{display:flex;justify-content:flex-end;padding:5px 10px;border-top:1px solid var(--border);background:#fff}
 .sig-clear{font-size:12px;color:var(--gray);background:none;border:none;cursor:pointer;padding:4px 8px;font-family:'DM Sans',sans-serif}
 
-.btn-primary{width:100%;padding:15px;background:var(--navy);color:white;border:none;border-radius:12px;font-family:'Syne',sans-serif;font-weight:700;font-size:15px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;-webkit-appearance:none}
-.btn-primary:active{background:#0a1628;transform:scale(.98)}
-.btn-secondary{width:100%;padding:13px;background:var(--white);color:var(--navy);border:1.5px solid var(--border);border-radius:12px;font-family:'Syne',sans-serif;font-weight:600;font-size:14px;cursor:pointer;margin-top:10px;-webkit-appearance:none}
+.btn{width:100%;padding:15px;background:var(--navy);color:#fff;border:none;border-radius:11px;font-family:'Syne',sans-serif;font-weight:700;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;-webkit-appearance:none;transition:all .2s}
+.btn:active{transform:scale(.98)}
+.btn2{width:100%;padding:13px;background:#fff;color:var(--navy);border:1.5px solid var(--border);border-radius:11px;font-family:'Syne',sans-serif;font-weight:600;font-size:14px;cursor:pointer;margin-top:9px;-webkit-appearance:none}
 
-.step-panel{display:none}
-.step-panel.active{display:block}
+.panel{display:none}
+.panel.active{display:block}
 
-.summary-box{background:var(--navy);border-radius:12px;padding:12px 14px;margin-bottom:14px;display:flex;align-items:center;gap:10px}
-.summary-flag{font-size:24px}
-.summary-country{color:var(--gold);font-family:'Syne',sans-serif;font-weight:700;font-size:13px}
-.summary-items{color:rgba(255,255,255,.75);font-size:11px;margin-top:2px}
+.sumbox{background:var(--navy);border-radius:11px;padding:11px 13px;margin-bottom:13px;display:flex;align-items:center;gap:10px}
+.sumflag{font-size:22px}
+.sumcountry{color:var(--gold);font-family:'Syne',sans-serif;font-weight:700;font-size:13px}
+.suminfo{color:rgba(255,255,255,.65);font-size:11px;margin-top:2px}
 
-.poa-box{border:1.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:14px;background:var(--bg)}
-.poa-title{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:var(--navy);text-align:center;margin-bottom:4px}
-.poa-sub{text-align:center;font-size:11px;color:var(--gray);margin-bottom:12px}
-.poa-grid{display:grid;grid-template-columns:56px 1fr;gap:4px 8px;margin-bottom:12px;padding-bottom:12px;border-bottom:1px dashed var(--border);font-size:12px}
-.poa-label{color:var(--gray);font-size:11px}
-.poa-val{font-weight:500;color:var(--navy)}
-.poa-body{font-size:12px;line-height:1.8;color:#444;margin-bottom:10px}
-.poa-scope{background:white;border-radius:8px;padding:10px 12px;margin-bottom:10px;font-size:12px;line-height:1.8}
-.poa-scope-title{font-size:11px;color:var(--gray);margin-bottom:4px}
-.poa-fee{background:var(--gold-light);border-radius:8px;padding:10px 12px;border-left:3px solid var(--gold);margin-bottom:10px;font-size:12px}
-.poa-fee-title{font-size:11px;color:var(--gray);margin-bottom:4px}
-.poa-note{font-size:11px;color:var(--gray);line-height:1.6}
+.err{font-size:12px;color:var(--error);margin-top:4px;display:none}
 
-.err-msg{font-size:12px;color:var(--error);margin-top:4px;display:none}
-
-.loading{display:none;position:fixed;inset:0;background:rgba(11,31,58,.6);align-items:center;justify-content:center;z-index:100;flex-direction:column;gap:12px}
+.loading{display:none;position:fixed;inset:0;background:rgba(11,31,58,.65);align-items:center;justify-content:center;z-index:100;flex-direction:column;gap:12px}
 .loading.show{display:flex}
 .spinner{width:40px;height:40px;border:3px solid rgba(255,255,255,.3);border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite}
-.loading-text{color:white;font-size:14px}
+.ltxt{color:#fff;font-size:14px}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-.success-screen{display:none;text-align:center;padding:40px 20px}
-.success-screen.show{display:block}
-.success-icon{width:72px;height:72px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 20px}
-.success-screen h2{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--navy);margin-bottom:10px}
-.success-screen p{color:var(--gray);font-size:14px;line-height:1.6}
-.bottom-space{height:32px}
+.success{display:none;text-align:center;padding:40px 20px}
+.success.show{display:block}
+.sicon{width:70px;height:70px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:30px;margin:0 auto 18px}
+.success h2{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--navy);margin-bottom:10px}
+.success p{color:var(--gray);font-size:14px;line-height:1.6}
+.bspace{height:32px}
 </style>
 </head>
 <body>
 
-<div class="loading" id="loading"><div class="spinner"></div><div class="loading-text">제출 중...</div></div>
+<div class="loading" id="loading"><div class="spinner"></div><div class="ltxt">제출 중...</div></div>
 
-<div class="header">
-  <div class="header-badge">💰 FREE TAX REFUND</div>
+<div class="hd">
+  <div class="hd-badge">💰 FREE TAX REFUND</div>
   <h1>Get Your <span>Tax Back</span><br>Up to 5 Years</h1>
-  <div class="header-sub">For foreign workers in Korea · No refund = No fee</div>
-  <div class="firm-tag"><div class="firm-dot"></div><div class="firm-name">세무회계 아진 · 대표세무사 김종빈</div></div>
+  <div class="hd-sub">For foreign workers in Korea · No refund = No fee</div>
+  <div class="hd-firm"><div class="hd-dot"></div><div class="hd-nm">세무회계 아진</div></div>
 </div>
 
 <div class="steps">
-  <div class="step-item"><div class="step-circle active" id="sc1">1</div><div class="step-label active" id="sl1">국가</div></div>
-  <div class="step-line" id="line1"></div>
-  <div class="step-item"><div class="step-circle" id="sc2">2</div><div class="step-label" id="sl2">자격</div></div>
-  <div class="step-line" id="line2"></div>
-  <div class="step-item"><div class="step-circle" id="sc3">3</div><div class="step-label" id="sl3">정보</div></div>
-  <div class="step-line" id="line3"></div>
-  <div class="step-item"><div class="step-circle" id="sc4">4</div><div class="step-label" id="sl4">서류</div></div>
-  <div class="step-line" id="line4"></div>
-  <div class="step-item"><div class="step-circle" id="sc5">5</div><div class="step-label" id="sl5">서명</div></div>
+  <div class="si"><div class="sc active" id="sc1">1</div><div class="sl active" id="sl1">국가</div></div>
+  <div class="sline" id="ln1"></div>
+  <div class="si"><div class="sc" id="sc2">2</div><div class="sl" id="sl2">정보</div></div>
+  <div class="sline" id="ln2"></div>
+  <div class="si"><div class="sc" id="sc3">3</div><div class="sl" id="sl3">위임장</div></div>
 </div>
 
-<!-- STEP 1: 국가 -->
-<div class="step-panel active" id="panel1">
+<!-- STEP 1 -->
+<div class="panel active" id="panel1">
   <div class="card">
-    <div class="section-title"><div class="num">1</div> Select Your Country</div>
-    <p style="font-size:13px;color:var(--gray);margin-bottom:14px">나라를 선택하세요 / Please select your country</p>
-    <div class="country-grid">
-      <button class="country-btn" data-country="Vietnam"     data-flag="🇻🇳" onclick="selectCountry(this)"><span class="country-flag">🇻🇳</span> Vietnam</button>
-      <button class="country-btn" data-country="China"       data-flag="🇨🇳" onclick="selectCountry(this)"><span class="country-flag">🇨🇳</span> China</button>
-      <button class="country-btn" data-country="Uzbekistan"  data-flag="🇺🇿" onclick="selectCountry(this)"><span class="country-flag">🇺🇿</span> Uzbekistan</button>
-      <button class="country-btn" data-country="Cambodia"    data-flag="🇰🇭" onclick="selectCountry(this)"><span class="country-flag">🇰🇭</span> Cambodia</button>
-      <button class="country-btn" data-country="Philippines" data-flag="🇵🇭" onclick="selectCountry(this)"><span class="country-flag">🇵🇭</span> Philippines</button>
-      <button class="country-btn" data-country="Indonesia"   data-flag="🇮🇩" onclick="selectCountry(this)"><span class="country-flag">🇮🇩</span> Indonesia</button>
-      <button class="country-btn" data-country="Thailand"    data-flag="🇹🇭" onclick="selectCountry(this)"><span class="country-flag">🇹🇭</span> Thailand</button>
-      <button class="country-btn" data-country="Nepal"       data-flag="🇳🇵" onclick="selectCountry(this)"><span class="country-flag">🇳🇵</span> Nepal</button>
-      <button class="country-btn" data-country="Myanmar"     data-flag="🇲🇲" onclick="selectCountry(this)"><span class="country-flag">🇲🇲</span> Myanmar</button>
-      <button class="country-btn" data-country="Other"       data-flag="🌏"  onclick="selectCountry(this)"><span class="country-flag">🌏</span> Other</button>
-    </div>
-    <div class="err-msg" id="err-country" style="margin-top:10px">Please select your country.</div>
+    <div class="stitle"><div class="num">1</div> Select Your Country</div>
+    <p style="font-size:13px;color:var(--gray);margin-bottom:13px">나라를 선택하세요 / Please select your country</p>
+    <div class="cgrid" id="cgrid"></div>
+    <div class="err" id="err-c" style="margin-top:10px">나라를 선택해주세요.</div>
     <div style="height:14px"></div>
-    <button class="btn-primary" onclick="goStep2()">Next →</button>
+    <button class="btn" onclick="go2()">다음 → Next</button>
   </div>
 </div>
 
-<!-- STEP 2: 자격 문답 -->
-<div class="step-panel" id="panel2">
+<!-- STEP 2 -->
+<div class="panel" id="panel2">
   <div class="card">
-    <div class="summary-box" id="sb2"></div>
-    <div class="section-title"><div class="num">2</div> 환급 자격 확인</div>
-    <p style="font-size:13px;color:var(--gray);margin-bottom:14px;line-height:1.5">아래 질문에 답해주세요. 환급 가능한 항목을 찾아드립니다.</p>
-
-    <div class="qa-card" id="qa1">
-      <div class="qa-question">① 한국에서 함께 생활하는 가족이 있으신가요?</div>
-      <div class="qa-sub">배우자, 자녀, 부모 등 — 기본공제 대상자 (소득세법 §50)</div>
-      <div class="qa-btns">
-        <button class="qa-btn yes" onclick="answerQ(1,'yes',this)">✅ 네, 있어요</button>
-        <button class="qa-btn no"  onclick="answerQ(1,'no',this)">❌ 없어요</button>
-      </div>
-      <div class="qa-result good" id="qr1-yes">👨‍👩‍👧 부양가족 기본공제 적용 가능! 가족관계 서류가 필요합니다.</div>
-      <div class="qa-result bad"  id="qr1-no">본인 기본공제만 적용됩니다.</div>
-    </div>
-
-    <div class="qa-card" id="qa2">
-      <div class="qa-question">② 한국에서 월세를 내고 살고 계신가요?</div>
-      <div class="qa-sub">월세 세액공제 (소득세법 §95조의2) — 최대 연 750만원 공제</div>
-      <div class="qa-btns">
-        <button class="qa-btn yes" onclick="answerQ(2,'yes',this)">✅ 네, 월세예요</button>
-        <button class="qa-btn no"  onclick="answerQ(2,'no',this)">❌ 아니요</button>
-      </div>
-      <div class="qa-result good" id="qr2-yes">🏠 월세 세액공제 가능! 임대차계약서 + 이체 내역이 필요합니다.</div>
-      <div class="qa-result bad"  id="qr2-no">월세 공제는 해당 없습니다.</div>
-    </div>
-
-    <div class="qa-card" id="qa3">
-      <div class="qa-question">③ 한국에서 신용카드 또는 체크카드를 사용하셨나요?</div>
-      <div class="qa-sub">카드 소득공제 (조특법 §126조의2) — 별도 서류 불필요</div>
-      <div class="qa-btns">
-        <button class="qa-btn yes" onclick="answerQ(3,'yes',this)">✅ 사용했어요</button>
-        <button class="qa-btn no"  onclick="answerQ(3,'no',this)">❌ 안 했어요</button>
-      </div>
-      <div class="qa-result good" id="qr3-yes">💳 카드 소득공제 가능! 홈택스에서 자동 조회되어 별도 서류 없습니다.</div>
-      <div class="qa-result bad"  id="qr3-no">카드 공제는 해당 없습니다.</div>
-    </div>
-
-    <div class="qa-card" id="qa4">
-      <div class="qa-question">④ 한국 병원에서 진료를 받으셨나요?</div>
-      <div class="qa-sub">의료비 세액공제 (소득세법 §59조의4)</div>
-      <div class="qa-btns">
-        <button class="qa-btn yes" onclick="answerQ(4,'yes',this)">✅ 네, 있어요</button>
-        <button class="qa-btn no"  onclick="answerQ(4,'no',this)">❌ 없어요</button>
-      </div>
-      <div class="qa-result good" id="qr4-yes">🏥 의료비 세액공제 가능! 병원 영수증을 준비해 주세요.</div>
-      <div class="qa-result bad"  id="qr4-no">의료비 공제는 해당 없습니다.</div>
-    </div>
-
-    <div class="err-msg" id="err-qa" style="margin-top:4px">모든 질문에 답해주세요.</div>
-    <button class="btn-primary" onclick="goStep3()" style="margin-top:8px">Next → 개인정보 입력</button>
-    <button class="btn-secondary" onclick="goStep1()">← Back</button>
-  </div>
-</div>
-
-<!-- STEP 3: 개인정보 -->
-<div class="step-panel" id="panel3">
-  <div class="card">
-    <div class="summary-box" id="sb3"></div>
-    <div class="section-title"><div class="num">3</div> Personal Information</div>
+    <div id="hookBox"></div>
+    <div class="stitle"><div class="num">2</div> Personal Information</div>
     <div class="field">
       <label>Full Name (성명)</label>
-      <input type="text" id="name" placeholder="As on your Residence Card" autocomplete="name">
-      <div class="err-msg" id="err-name">이름을 입력해주세요.</div>
+      <input type="text" id="name" placeholder="As on your Residence Card">
+      <div class="err" id="err-name">이름을 입력해주세요.</div>
     </div>
     <div class="field">
       <label>Registration Number (등록번호)</label>
       <input type="text" id="arcnum" placeholder="000000-0000000" maxlength="14" inputmode="numeric">
-      <div class="hint">Residence Card (외국인등록증) 앞면 번호</div>
-      <div class="err-msg" id="err-arc">등록번호를 입력해주세요.</div>
+      <div class="hint">Residence Card (외국인등록증) 앞면</div>
+      <div class="err" id="err-arc">등록번호를 입력해주세요.</div>
     </div>
     <div class="field">
-      <label>Phone / KakaoTalk</label>
+      <label>Phone / KakaoTalk (연락처)</label>
       <input type="tel" id="phone" placeholder="010-0000-0000" inputmode="tel">
-      <div class="err-msg" id="err-phone">연락처를 입력해주세요.</div>
+      <div class="err" id="err-phone">연락처를 입력해주세요.</div>
     </div>
-    <div class="field">
-      <label>환급 신청 연도 (Select years)</label>
-      <div class="years-grid">
-        <label class="year-btn" onclick="toggleYear(this,event)"><input type="checkbox" name="years" value="2020"><div class="year-num">2020</div><div class="year-check">✓</div></label>
-        <label class="year-btn" onclick="toggleYear(this,event)"><input type="checkbox" name="years" value="2021"><div class="year-num">2021</div><div class="year-check">✓</div></label>
-        <label class="year-btn" onclick="toggleYear(this,event)"><input type="checkbox" name="years" value="2022"><div class="year-num">2022</div><div class="year-check">✓</div></label>
-        <label class="year-btn" onclick="toggleYear(this,event)"><input type="checkbox" name="years" value="2023"><div class="year-num">2023</div><div class="year-check">✓</div></label>
-        <label class="year-btn" onclick="toggleYear(this,event)"><input type="checkbox" name="years" value="2024"><div class="year-num">2024</div><div class="year-check">✓</div></label>
+    <div style="background:var(--gold-light);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:10px 13px;margin-bottom:13px;font-size:13px;color:var(--navy)">
+      📅 환급 신청 연도: <strong>2020년 ~ 2024년 (5년치)</strong>
+    </div>
+    <div style="margin-bottom:13px">
+      <label style="display:block;font-size:11px;font-weight:500;color:var(--gray);letter-spacing:.04em;text-transform:uppercase;margin-bottom:5px">Residence Card (외국인등록증) 📷</label>
+      <div class="uarea" onclick="document.getElementById('frc').click()">
+        <input type="file" id="frc" accept="image/*" capture="environment" style="display:none" onchange="upload(this,'rc')">
+        <div class="uicon">📷</div>
+        <div class="utxt">앞면 촬영 또는 업로드</div>
+        <div class="usub">JPG / PNG · 최대 10MB</div>
+        <img id="prev-rc" class="uprev">
+        <div class="udone" id="done-rc">✅ 업로드 완료</div>
       </div>
-      <div class="err-msg" id="err-years">연도를 하나 이상 선택해주세요.</div>
+      <div class="err" id="err-rc">외국인등록증을 업로드해주세요.</div>
     </div>
-    <button class="btn-primary" onclick="goStep4()">Next → 서류 업로드</button>
-    <button class="btn-secondary" onclick="goStep2()">← Back</button>
+    <button class="btn" onclick="go3()">다음 → 위임장 서명</button>
+    <button class="btn2" onclick="go1()">← 이전</button>
   </div>
 </div>
 
-<!-- STEP 4: 서류 -->
-<div class="step-panel" id="panel4">
+<!-- STEP 3 -->
+<div class="panel" id="panel3">
   <div class="card">
-    <div class="summary-box" id="sb4"></div>
-    <div class="section-title"><div class="num">4</div> 서류 업로드</div>
-    <p style="font-size:13px;color:var(--gray);margin-bottom:14px;line-height:1.5">답변 내용을 바탕으로 필요한 서류만 표시됩니다.</p>
-
-    <div class="doc-section">
-      <div class="doc-title">📋 Residence Card (외국인등록증) <span class="doc-badge required">필수</span></div>
-      <div class="upload-area" onclick="document.getElementById('f-rc').click()">
-        <input type="file" id="f-rc" accept="image/*" capture="environment" style="display:none" onchange="handleUpload(this,'rc')">
-        <div class="upload-icon">📷</div><div class="upload-text">앞면 촬영 또는 업로드</div><div class="upload-sub">JPG / PNG · 최대 10MB</div>
-        <img id="prev-rc" class="upload-preview"><div class="upload-done" id="done-rc">✅ 업로드 완료</div>
+    <div class="sumbox" id="sb3"></div>
+    <div class="stitle"><div class="num">3</div> 위임장 서명</div>
+    <p style="font-size:13px;color:var(--gray);margin-bottom:12px;line-height:1.5">아래 위임장을 확인하신 후 손가락으로 서명해 주세요.</p>
+    <div class="poa" id="poaBox">
+      <div class="poa-kr">
+        <div class="lang-badge">🇰🇷 한국어</div>
+        <div class="poa-title">위 임 장</div>
+        <div class="poa-sub">소득세 경정청구 세무대리 위임</div>
+        <div class="poa-grid">
+          <span class="poa-lbl">수임인</span><span class="poa-val">세무회계 아진</span>
+        </div>
+        <p class="poa-body">본인은 위 수임인 <strong>세무회계 아진</strong>을 대리인으로 정하고, 아래 사항에 관한 일체의 세무대리 행위를 위임합니다.</p>
+        <div class="poa-scope">
+          <div class="poa-scope-t">【 위임 내용 】 하기 서류에 관한 출력업무 위임의 건</div>
+          <div>1. 종합소득세 2020년~2024년 신고서</div>
+          <div>2. 종합소득세 2020년~2024년 신고서 첨부자료</div>
+          <div>3. 상기 자료 외 경정청구 관련된 자료</div>
+        </div>
+        <div class="poa-fee">
+          <div class="poa-fee-t">【 수수료 】</div>
+          <div><strong>실제 환급세액의 20%</strong></div>
+          <div style="font-size:11px;color:var(--gray);margin-top:2px">환급이 없을 경우 수수료는 발생하지 않습니다.</div>
+        </div>
+        <p class="poa-note">본인은 위 위임 내용을 충분히 이해하였으며, 제공한 모든 정보가 사실임을 확인합니다.</p>
       </div>
-      <div class="err-msg" id="err-rc">외국인등록증을 업로드해주세요.</div>
+      <div id="poaLang"></div>
     </div>
-
-    <div class="doc-section" id="doc-family" style="display:none">
-      <div class="doc-title">👨‍👩‍👧 가족관계 증명서류 <span class="doc-badge required">필수</span></div>
-      <div class="doc-hint">본국에서 발급한 가족관계증명서 + 공증 번역본 (한국어 또는 영어)</div>
-      <div style="height:8px"></div>
-      <div class="upload-area" onclick="document.getElementById('f-family').click()">
-        <input type="file" id="f-family" accept="image/*,application/pdf" style="display:none" onchange="handleUpload(this,'family')">
-        <div class="upload-icon">📄</div><div class="upload-text">사진 또는 PDF 업로드</div><div class="upload-sub">JPG / PNG / PDF · 최대 10MB</div>
-        <img id="prev-family" class="upload-preview"><div class="upload-done" id="done-family">✅ 업로드 완료</div>
-      </div>
-    </div>
-
-    <div class="doc-section" id="doc-rent" style="display:none">
-      <div class="doc-title">🏠 임대차계약서 <span class="doc-badge required">필수</span></div>
-      <div class="doc-hint">임대차계약서 + 월세 이체 내역 (통장 거래내역 또는 캡처)</div>
-      <div style="height:8px"></div>
-      <div class="upload-area" onclick="document.getElementById('f-rent').click()">
-        <input type="file" id="f-rent" accept="image/*,application/pdf" style="display:none" onchange="handleUpload(this,'rent')">
-        <div class="upload-icon">📄</div><div class="upload-text">계약서 촬영 또는 업로드</div><div class="upload-sub">JPG / PNG / PDF · 최대 10MB</div>
-        <img id="prev-rent" class="upload-preview"><div class="upload-done" id="done-rent">✅ 업로드 완료</div>
-      </div>
-    </div>
-
-    <div class="doc-section" id="doc-medical" style="display:none">
-      <div class="doc-title">🏥 의료비 영수증 <span class="doc-badge optional">해당 시</span></div>
-      <div class="doc-hint">병원 진료비 영수증 (없으면 홈택스에서 조회 가능)</div>
-      <div style="height:8px"></div>
-      <div class="upload-area" onclick="document.getElementById('f-medical').click()">
-        <input type="file" id="f-medical" accept="image/*,application/pdf" style="display:none" onchange="handleUpload(this,'medical')">
-        <div class="upload-icon">📄</div><div class="upload-text">영수증 촬영 또는 업로드</div><div class="upload-sub">JPG / PNG / PDF · 최대 10MB</div>
-        <img id="prev-medical" class="upload-preview"><div class="upload-done" id="done-medical">✅ 업로드 완료</div>
-      </div>
-    </div>
-
-    <button class="btn-primary" onclick="goStep5()" style="margin-top:6px">Next → 서명 및 제출</button>
-    <button class="btn-secondary" onclick="goStep3()">← Back</button>
-  </div>
-</div>
-
-<!-- STEP 5: 서명 -->
-<div class="step-panel" id="panel5">
-  <div class="card">
-    <div class="summary-box" id="sb5"></div>
-    <div class="section-title"><div class="num">5</div> 서명 및 제출</div>
-    <p style="font-size:13px;color:var(--gray);margin-bottom:12px">아래 위임장 내용을 확인하신 후 손가락으로 서명해 주세요.</p>
-
-    <div class="poa-box">
-      <div class="poa-title">위 임 장</div>
-      <div class="poa-sub">소득세 경정청구 세무대리 위임</div>
-      <div class="poa-grid">
-        <span class="poa-label">수임인</span><span class="poa-val">세무회계 아진 · 대표세무사 김종빈</span>
-        <span class="poa-label">사무소</span><span class="poa-val">전라북도 전주시</span>
-      </div>
-      <p class="poa-body">본인은 위 수임인 <strong>세무회계 아진 대표세무사 김종빈</strong>을 대리인으로 정하고, 아래 사항에 관한 일체의 세무대리 행위를 위임합니다.</p>
-      <div class="poa-scope">
-        <div class="poa-scope-title">【 위임 내용 】 하기 서류에 관한 출력업무 위임의 건</div>
-        <div>1. 종합소득세 2020년~2024년 신고서</div>
-        <div>2. 종합소득세 2020년~2024년 신고서 첨부자료</div>
-        <div>3. 상기 자료 외 경정청구 관련된 자료</div>
-      </div>
-      <div class="poa-fee">
-        <div class="poa-fee-title">【 수수료 】</div>
-        <div><strong>실제 환급세액의 20%</strong></div>
-        <div style="font-size:11px;color:var(--gray);margin-top:2px">환급이 없을 경우 수수료는 발생하지 않습니다.</div>
-      </div>
-      <p class="poa-note">본인은 위 위임 내용을 충분히 이해하였으며, 제공한 모든 정보가 사실임을 확인합니다. 위임 효력은 선택한 연도에 한합니다.</p>
-    </div>
-
     <div class="field">
-      <label>서명 <span style="font-size:10px;font-weight:400">(손가락으로 서명해 주세요)</span></label>
+      <label>서명 Signature <span style="font-size:10px;font-weight:400">(손가락으로 서명)</span></label>
       <div class="sig-wrap">
         <canvas id="sigPad" width="400" height="130"></canvas>
-        <div class="sig-label" id="sigHint">✍️ 여기에 서명해 주세요</div>
-        <div class="sig-actions"><button class="sig-clear" onclick="clearSig()">지우기</button></div>
+        <div class="sig-hint" id="sigHint">✍️ 여기에 서명해 주세요</div>
+        <div class="sig-actions"><button class="sig-clear" onclick="clrSig()">지우기</button></div>
       </div>
-      <div class="err-msg" id="err-sig">서명을 해주세요.</div>
+      <div class="err" id="err-sig">서명을 해주세요.</div>
     </div>
-
-    <button class="btn-primary" onclick="submitForm()">제출하기 🚀</button>
-    <button class="btn-secondary" onclick="goStep4()">← Back</button>
+    <button class="btn" onclick="doSubmit()">제출하기 🚀</button>
+    <button class="btn2" onclick="go2()">← 이전</button>
   </div>
-  <div class="bottom-space"></div>
+  <div class="bspace"></div>
 </div>
 
-<div class="card success-screen" id="successScreen">
-  <div class="success-icon">✅</div>
+<div class="card success" id="successScreen">
+  <div class="sicon">✅</div>
   <h2>신청 완료!</h2>
-  <p>서류를 검토 후 <strong>1영업일 이내</strong> 카카오톡으로 연락드립니다.<br><br>환급 없으면 수수료 없습니다. 💰</p>
-  <div style="margin-top:24px;padding:14px;background:var(--bg);border-radius:10px;font-size:13px;color:var(--gray);line-height:1.6">
-    📱 문의: 카카오톡 채널 <strong style="color:var(--navy)">세무회계 아진</strong> 검색
+  <p>서류를 검토 후 <strong>1영업일 이내</strong><br>카카오톡으로 연락드립니다.<br><br>💰 환급 없으면 수수료 없습니다.</p>
+  <div style="margin-top:20px;padding:13px;background:var(--bg);border-radius:10px;font-size:13px;color:var(--gray);line-height:1.6">
+    📱 카카오톡 채널 <strong style="color:var(--navy)">세무회계 아진</strong> 검색
   </div>
 </div>
-<div class="bottom-space"></div>
+<div class="bspace"></div>
 
 <script>
-const state = { country:'', flag:'', qa:{}, uploads:{} };
+// ── 국가 데이터 ──
+const COUNTRIES = [
+  { c:'중국(한국계 포함)', l:'zh', flag:'cn', em:'🇨🇳', name:'China',       sub:'중국 (한국계 포함)' },
+  { c:'베트남',           l:'vi', flag:'vn', em:'🇻🇳', name:'Vietnam',     sub:'베트남' },
+  { c:'미국',             l:'en', flag:'us', em:'🇺🇸', name:'USA',         sub:'미국' },
+  { c:'태국',             l:'th', flag:'th', em:'🇹🇭', name:'Thailand',    sub:'태국' },
+  { c:'우즈베키스탄',     l:'uz', flag:'uz', em:'🇺🇿', name:'Uzbekistan',  sub:'우즈베키스탄' },
+  { c:'필리핀',           l:'tl', flag:'ph', em:'🇵🇭', name:'Philippines', sub:'필리핀' },
+  { c:'일본',             l:'ja', flag:'jp', em:'🇯🇵', name:'Japan',       sub:'일본' },
+  { c:'네팔',             l:'ne', flag:'np', em:'🇳🇵', name:'Nepal',       sub:'네팔' },
+  { c:'인도네시아',       l:'id', flag:'id', em:'🇮🇩', name:'Indonesia',   sub:'인도네시아' },
+  { c:'기타',             l:'en', flag:'',   em:'🌏',  name:'Other',       sub:'몽골/캄보디아/기타' },
+];
 
-function selectCountry(btn) {
-  document.querySelectorAll('.country-btn').forEach(b => b.classList.remove('selected'));
-  btn.classList.add('selected');
-  state.country = btn.dataset.country;
-  state.flag = btn.dataset.flag;
+// ── 국가별 훅 메시지 ──
+const HOOK = {
+  zh: { bg:'#0B1F3A', q:'您是否多缴了税款？', a:'在韩国工作期间，很多人因未申报年终结算而多缴税款。\n我们帮您免费核查，有退款才收费！', badge:'无退款 = 不收费 💰' },
+  vi: { bg:'#0B1F3A', q:'Bạn có nộp thừa thuế không?', a:'Nhiều lao động nước ngoài tại Hàn Quốc đã nộp thừa thuế vì không khai quyết toán cuối năm.\nChúng tôi kiểm tra miễn phí — chỉ thu phí khi có hoàn thuế!', badge:'Không hoàn tiền = Không mất phí 💰' },
+  en: { bg:'#0B1F3A', q:'Did you overpay your taxes in Korea?', a:'Many foreign workers overpay taxes because year-end tax adjustments are not filed.\nWe check for free — you only pay if we get your refund!', badge:'No refund = No fee 💰' },
+  th: { bg:'#0B1F3A', q:'คุณจ่ายภาษีในเกาหลีมากเกินไปหรือไม่?', a:'แรงงานต่างชาติหลายคนจ่ายภาษีเกินเพราะไม่ได้ยื่นปรับภาษีปลายปี\nเราตรวจสอบฟรี — เก็บค่าธรรมเนียมเฉพาะเมื่อได้รับเงินคืน!', badge:'ไม่มีคืนเงิน = ไม่มีค่าธรรมเนียม 💰' },
+  uz: { bg:'#0B1F3A', q:'Siz Koreyada ortiqcha soliq to\'ladingizmi?', a:'Ko\'plab chet el ishchilari yil oxiri soliq qaytarish arizasini topshirmaganligi sababli ortiqcha soliq to\'laydi.\nBiz bepul tekshiramiz — faqat qaytarilganda to\'lov olinadi!', badge:'Qaytarilmasa — haq yo\'q 💰' },
+  tl: { bg:'#0B1F3A', q:'Nagbayad ka ba ng sobrang buwis sa Korea?', a:'Maraming dayuhang manggagawa ang nagbabayad ng sobra dahil hindi nila na-file ang year-end tax adjustment.\nLibre naming i-check — magbabayad ka lang kapag may refund!', badge:'Walang refund = Walang bayad 💰' },
+  ja: { bg:'#0B1F3A', q:'韓国で税金を払いすぎていませんか？', a:'多くの外国人労働者は年末調整を申告していないため、税金を過払いしています。\n無料で確認します。還付があった場合のみ手数料をいただきます！', badge:'還付なし＝手数料なし 💰' },
+  ne: { bg:'#0B1F3A', q:'के तपाईंले कोरियामा बढी कर तिर्नुभयो?', a:'धेरै विदेशी कामदारहरूले वर्ष-अन्त कर समायोजन दाखिला नगरेकाले बढी कर तिरेका छन्।\nहामी नि:शुल्क जाँच गर्छौं — फिर्ता भएमा मात्र शुल्क लिइन्छ!', badge:'फिर्ता नभए शुल्क छैन 💰' },
+  id: { bg:'#0B1F3A', q:'Apakah Anda membayar pajak terlalu banyak di Korea?', a:'Banyak pekerja asing membayar pajak lebih karena tidak mengajukan penyesuaian pajak akhir tahun.\nKami periksa gratis — biaya hanya dikenakan jika ada pengembalian!', badge:'Tidak ada pengembalian = Tidak ada biaya 💰' },
+};
+
+// ── 위임장 번역 ──
+const POA = {
+  zh: { badge:'🇨🇳 中文', title:'授 权 委 托 书', sub:'所得税更正申报税务代理委托', rep:'세무회계 아진', body:'本人委托上述受托人<strong>세무회계 아진</strong>为代理人，委托办理以下全部税务代理事项。', scopeT:'【委托内容】关于以下文件的打印业务委托事项', scope:['1. 综合所得税2020年~2024年申报书','2. 综合所得税2020年~2024年申报书附件资料','3. 除上述资料外与更正申报相关的资料'], feeT:'【服务费】', fee:'<strong>实际退税额的20%</strong>', feeNote:'如无退税，则不产生服务费。', note:'本人充分理解上述委托内容，确认所提供的所有信息均属实。' },
+  vi: { badge:'🇻🇳 Tiếng Việt', title:'GIẤY ỦY QUYỀN', sub:'Ủy quyền đại lý thuế khai bổ sung thuế thu nhập', rep:'세무회계 아진', body:'Tôi chỉ định <strong>세무회계 아진</strong> làm đại diện và ủy quyền thực hiện tất cả các công việc đại lý thuế sau đây.', scopeT:'【Nội dung ủy quyền】Ủy quyền công việc in ấn các tài liệu sau', scope:['1. Tờ khai thuế thu nhập tổng hợp năm 2020~2024','2. Tài liệu đính kèm tờ khai thuế thu nhập 2020~2024','3. Tài liệu liên quan đến khai bổ sung ngoài các tài liệu trên'], feeT:'【Phí dịch vụ】', fee:'<strong>20% số tiền hoàn thuế thực tế</strong>', feeNote:'Nếu không có hoàn thuế, sẽ không phát sinh phí dịch vụ.', note:'Tôi đã hiểu đầy đủ nội dung ủy quyền và xác nhận tất cả thông tin là chính xác.' },
+  en: { badge:'🇺🇸 English', title:'POWER OF ATTORNEY', sub:'Tax Agent Authorization for Income Tax Amended Return', rep:'세무회계 아진', body:'I hereby appoint <strong>세무회계 아진</strong> as my agent and authorize all tax agency services as follows.', scopeT:'【Scope】Authorization for printing the following documents', scope:['1. Comprehensive Income Tax Return 2020~2024','2. Attachments to Income Tax Return 2020~2024','3. Other documents related to the amended return'], feeT:'【Service Fee】', fee:'<strong>20% of the actual refund amount</strong>', feeNote:'No refund = No fee.', note:'I confirm that I fully understand the above authorization and that all information provided is accurate.' },
+  th: { badge:'🇹🇭 ภาษาไทย', title:'หนังสือมอบอำนาจ', sub:'มอบอำนาจตัวแทนภาษีสำหรับการยื่นแบบแก้ไขภาษีเงินได้', rep:'세무회계 아진', body:'ข้าพเจ้าขอแต่งตั้ง<strong>세무회계 아진</strong>เป็นตัวแทนและมอบอำนาจดำเนินการด้านตัวแทนภาษีทั้งหมดดังต่อไปนี้', scopeT:'【เนื้อหาการมอบอำนาจ】มอบอำนาจงานพิมพ์เอกสาร', scope:['1. แบบแสดงรายการภาษีเงินได้รวม ปี 2020~2024','2. เอกสารแนบแบบแสดงรายการภาษีเงินได้ ปี 2020~2024','3. เอกสารที่เกี่ยวข้องกับการยื่นแบบแก้ไขนอกเหนือจากเอกสารข้างต้น'], feeT:'【ค่าบริการ】', fee:'<strong>20% ของยอดเงินคืนภาษีที่ได้รับจริง</strong>', feeNote:'หากไม่มีการคืนภาษี จะไม่มีค่าบริการ', note:'ข้าพเจ้าเข้าใจเนื้อหาการมอบอำนาจและยืนยันว่าข้อมูลทั้งหมดเป็นความจริง' },
+  uz: { badge:"🇺🇿 O'zbek", title:'ISHONCHNOMA', sub:"Daromad solig'i tuzatilgan deklaratsiyasi uchun soliq agenti vakolati", rep:'세무회계 아진', body:'Men <strong>세무회계 아진</strong>ni vakilim sifatida tayinlayman va quyidagi soliq agentligi xizmatlarini amalga oshirishga vakolat beraman.', scopeT:"【Vakolat mazmuni】Quyidagi hujjatlarni chop etish", scope:["1. 2020~2024 yillar uchun kompleks daromad solig'i deklaratsiyasi","2. 2020~2024 yillar deklaratsiyasiga ilovalar","3. Tuzatilgan deklaratsiya bilan bog'liq qo'shimcha hujjatlar"], feeT:'【Xizmat haqi】', fee:'<strong>Haqiqiy qaytarilgan soliq miqdorining 20%</strong>', feeNote:'Agar qaytarilmasa, xizmat haqi olinmaydi.', note:"Men yuqoridagi vakolat mazmunini to'liq tushundim va barcha ma'lumotlar to'g'ri ekanligini tasdiqlayman." },
+  tl: { badge:'🇵🇭 Filipino', title:'KAPANGYARIHAN NG ABOGADO', sub:'Awtorisasyon ng Ahente ng Buwis para sa Amended Income Tax Return', rep:'세무회계 아진', body:'Itinalaga ko ang <strong>세무회계 아진</strong> bilang aking ahente at awtorisado ang lahat ng serbisyo ng ahente ng buwis.', scopeT:'【Nilalaman】Awtorisasyon para sa pag-print ng mga dokumento', scope:['1. Comprehensive Income Tax Return 2020~2024','2. Mga Attachment sa Income Tax Return 2020~2024','3. Iba pang dokumento na may kaugnayan sa amended return'], feeT:'【Bayad sa Serbisyo】', fee:'<strong>20% ng aktwal na halaga ng refund</strong>', feeNote:'Kung walang refund, walang bayad.', note:'Naiintindihan ko ang nilalaman ng awtorisasyong ito at kinukumpirma ko na tama ang lahat ng impormasyong ibinigay.' },
+  ja: { badge:'🇯🇵 日本語', title:'委 任 状', sub:'所得税更正申告税務代理委任', rep:'세무회계 아진', body:'私は上記受任者<strong>세무회계 아진</strong>を代理人と定め、以下の事項に関する一切の税務代理行為を委任します。', scopeT:'【委任内容】下記書類に関する取得業務委任の件', scope:['1. 総合所得税2020年~2024年申告書','2. 総合所得税2020年~2024年申告書添付資料','3. 上記資料以外の更正申告関連資料'], feeT:'【報酬】', fee:'<strong>実際の還付税額の20%</strong>', feeNote:'還付がない場合、報酬は発生しません。', note:'私は上記委任内容を十分に理解しており、提供した全ての情報が事実であることを確認します。' },
+  ne: { badge:'🇳🇵 नेपाली', title:'अधिकार पत्र', sub:'आयकर संशोधित विवरणको लागि कर एजेन्ट प्राधिकरण', rep:'세무회계 아진', body:'म <strong>세무회계 아진</strong>लाई मेरो एजेन्टको रूपमा नियुक्त गर्दछु।', scopeT:'【प्राधिकरण】निम्न कागजातहरू मुद्रण कार्यको लागि', scope:['१. व्यापक आयकर विवरण २०२०~२०२४','२. आयकर विवरण २०२०~२०२४ को संलग्नकहरू','३. संशोधित विवरणसँग सम्बन्धित अन्य कागजातहरू'], feeT:'【सेवा शुल्क】', fee:'<strong>वास्तविक फिर्ता रकमको २०%</strong>', feeNote:'फिर्ता नभएमा सेवा शुल्क लाग्दैन।', note:'मैले माथिको प्राधिकरण पूर्ण रूपमा बुझेको छु र सबै जानकारी सत्य हो भनी पुष्टि गर्दछु।' },
+  id: { badge:'🇮🇩 Bahasa Indonesia', title:'SURAT KUASA', sub:'Pemberian Kuasa Agen Pajak untuk SPT yang Diubah', rep:'세무회계 아진', body:'Saya menunjuk <strong>세무회계 아진</strong> sebagai agen saya dan memberikan wewenang untuk melaksanakan semua layanan agen pajak berikut.', scopeT:'【Isi Kuasa】Pemberian kuasa pekerjaan pencetakan dokumen', scope:['1. SPT Pajak Penghasilan Komprehensif 2020~2024','2. Lampiran SPT Pajak Penghasilan 2020~2024','3. Dokumen lain terkait SPT yang diubah'], feeT:'【Biaya Layanan】', fee:'<strong>20% dari jumlah pengembalian pajak aktual</strong>', feeNote:'Jika tidak ada pengembalian, tidak ada biaya layanan.', note:'Saya memahami sepenuhnya isi kuasa di atas dan mengonfirmasi bahwa semua informasi yang diberikan adalah benar.' },
+};
+
+// ── State ──
+const S = { country:'', flag:'', lang:'en', uploads:{} };
+
+// ── 국가 버튼 렌더링 ──
+function renderCountries() {
+  const grid = document.getElementById('cgrid');
+  grid.innerHTML = COUNTRIES.map((d,i) => `
+    <button class="cbtn" data-idx="${i}" onclick="pick(this)">
+      <div class="cflag-wrap">
+        ${d.flag
+          ? `<img class="cflag-img" src="https://flagcdn.com/w40/${d.flag}.png" alt="${d.name}" onerror="this.style.display='none';this.parentNode.innerHTML='<span class=cflag-em>${d.em}</span>'">`
+          : `<span class="cflag-em">${d.em}</span>`}
+      </div>
+      <span>
+        <span class="cname">${d.name}</span>
+        <span class="csub">${d.sub}</span>
+      </span>
+    </button>
+  `).join('');
 }
 
+function pick(btn) {
+  document.querySelectorAll('.cbtn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  const d = COUNTRIES[btn.dataset.idx];
+  S.country = d.c; S.flag = d.em; S.lang = d.l;
+}
+
+// ── Steps ──
 function showStep(n) {
-  document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.getElementById('panel'+n).classList.add('active');
   window.scrollTo(0,0);
-  for (let i=1;i<=5;i++) {
-    const sc=document.getElementById('sc'+i), sl=document.getElementById('sl'+i);
-    sc.classList.remove('active','done'); sl.classList.remove('active');
-    if (i<n){ sc.classList.add('done'); sc.textContent='✓'; }
-    else if (i===n){ sc.classList.add('active'); sc.textContent=i; sl.classList.add('active'); }
+  for(let i=1;i<=3;i++){
+    const sc=document.getElementById('sc'+i),sl=document.getElementById('sl'+i);
+    sc.classList.remove('active','done');sl.classList.remove('active');
+    if(i<n){sc.classList.add('done');sc.textContent='✓';}
+    else if(i===n){sc.classList.add('active');sc.textContent=i;sl.classList.add('active');}
     else sc.textContent=i;
   }
-  for (let i=1;i<=4;i++) document.getElementById('line'+i).classList.toggle('done',i<n);
-  updateSummaries();
+  for(let i=1;i<=2;i++) document.getElementById('ln'+i).classList.toggle('done',i<n);
+  updSummary();
 }
 
-function updateSummaries() {
-  const items=[];
-  if(state.qa[1]==='yes') items.push('부양가족');
-  if(state.qa[2]==='yes') items.push('월세');
-  if(state.qa[3]==='yes') items.push('카드');
-  if(state.qa[4]==='yes') items.push('의료비');
-  const eligible = items.length ? '✅ '+items.join(' · ') : '항목 확인 중...';
-  const html = `<div class="summary-flag">${state.flag||'🌏'}</div><div style="flex:1"><div class="summary-country">${state.country||'국가 선택'}</div><div class="summary-items">${eligible}</div></div>`;
-  ['sb2','sb3','sb4','sb5'].forEach(id=>{ const el=document.getElementById(id); if(el) el.innerHTML=html; });
+function updSummary(){
+  const html=`<div class="sumflag">${S.flag||'🌏'}</div><div><div class="sumcountry">${S.country||'국가 선택'}</div><div class="suminfo">세무회계 아진</div></div>`;
+  ['sb3'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=html;});
 }
 
-function goStep1(){ showStep(1); }
+function go1(){ showStep(1); }
 
-function goStep2(){
-  if(!state.country){ show('err-country'); return; }
-  hide('err-country'); showStep(2);
+function go2(){
+  if(!S.country){ show('err-c'); return; }
+  hide('err-c');
+  buildHook();
+  showStep(2);
 }
 
-function goStep3(){
-  const missing=[1,2,3,4].filter(i=>!state.qa[i]);
-  if(missing.length){ show('err-qa'); return; }
-  hide('err-qa');
-  document.getElementById('doc-family').style.display = state.qa[1]==='yes'?'block':'none';
-  document.getElementById('doc-rent').style.display   = state.qa[2]==='yes'?'block':'none';
-  document.getElementById('doc-medical').style.display= state.qa[4]==='yes'?'block':'none';
-  showStep(3);
-}
-
-function goStep4(){
+function go3(){
   let ok=true;
-  if(!v('name'))  { show('err-name');  ok=false; } else hide('err-name');
-  if(!v('arcnum')||v('arcnum').length<13){ show('err-arc'); ok=false; } else hide('err-arc');
-  if(!v('phone')) { show('err-phone'); ok=false; } else hide('err-phone');
-  const yrs=[...document.querySelectorAll('input[name="years"]:checked')];
-  if(!yrs.length) { show('err-years'); ok=false; } else hide('err-years');
-  if(ok) showStep(4);
+  if(!v('name')){show('err-name');ok=false;}else hide('err-name');
+  if(!v('arcnum')||v('arcnum').length<13){show('err-arc');ok=false;}else hide('err-arc');
+  if(!v('phone')){show('err-phone');ok=false;}else hide('err-phone');
+  if(!S.uploads.rc){show('err-rc');ok=false;}else hide('err-rc');
+  if(!ok) return;
+  buildPOA();
+  showStep(3);
+  initSig();
 }
 
-function goStep5(){
-  if(!state.uploads.rc){ show('err-rc'); return; }
-  hide('err-rc'); showStep(5); initSig();
+// ── 훅 메시지 ──
+function buildHook(){
+  const h = HOOK[S.lang] || HOOK['en'];
+  const lines = h.a.split('\n');
+  document.getElementById('hookBox').innerHTML = `
+    <div class="hook-box" style="background:${h.bg};color:#fff">
+      <span class="hook-flag">${S.flag}</span>
+      <div class="hook-q">${h.q}</div>
+      ${lines.map(l=>`<div class="hook-a">${l}</div>`).join('')}
+      <span class="hook-badge">${h.badge}</span>
+    </div>
+  `;
 }
 
-function answerQ(num,ans,btn){
-  const card=document.getElementById('qa'+num);
-  card.querySelectorAll('.qa-btn').forEach(b=>b.classList.remove('selected'));
-  btn.classList.add('selected');
-  card.classList.add('answered');
-  state.qa[num]=ans;
-  const yes=document.getElementById('qr'+num+'-yes');
-  const no =document.getElementById('qr'+num+'-no');
-  yes.classList.remove('show'); no.classList.remove('show');
-  document.getElementById('qr'+num+'-'+ans).classList.add('show');
+// ── 위임장 번역 ──
+function buildPOA(){
+  const p = POA[S.lang] || POA['en'];
+  document.getElementById('poaLang').innerHTML = `
+    <div class="lang-badge">${p.badge}</div>
+    <div class="poa-title">${p.title}</div>
+    <div class="poa-sub">${p.sub}</div>
+    <div class="poa-grid">
+      <span class="poa-lbl">수임인</span><span class="poa-val">${p.rep}</span>
+    </div>
+    <p class="poa-body">${p.body}</p>
+    <div class="poa-scope">
+      <div class="poa-scope-t">${p.scopeT}</div>
+      ${p.scope.map(s=>`<div>${s}</div>`).join('')}
+    </div>
+    <div class="poa-fee">
+      <div class="poa-fee-t">${p.feeT}</div>
+      <div>${p.fee}</div>
+      <div style="font-size:11px;color:var(--gray);margin-top:2px">${p.feeNote}</div>
+    </div>
+    <p class="poa-note">${p.note}</p>
+  `;
 }
 
-function toggleYear(label,e){
-  e.preventDefault();
-  const cb=label.querySelector('input[type="checkbox"]');
-  cb.checked=!cb.checked;
-  label.classList.toggle('selected',cb.checked);
-}
-
-function v(id){ return document.getElementById(id).value.trim(); }
-function show(id){ document.getElementById(id).style.display='block'; }
-function hide(id){ document.getElementById(id).style.display='none'; }
-
-function handleUpload(input,key){
-  const file=input.files[0]; if(!file) return;
-  const reader=new FileReader();
-  reader.onload=function(e){
-    state.uploads[key]=e.target.result;
-    const prev=document.getElementById('prev-'+key);
-    if(prev&&file.type.startsWith('image/')){ prev.src=e.target.result; prev.style.display='block'; }
-    const done=document.getElementById('done-'+key);
-    if(done) done.style.display='flex';
-  };
-  reader.readAsDataURL(file);
-}
+// ── Helpers ──
+function v(id){return document.getElementById(id).value.trim();}
+function show(id){document.getElementById(id).style.display='block';}
+function hide(id){document.getElementById(id).style.display='none';}
 
 document.addEventListener('DOMContentLoaded',()=>{
+  renderCountries();
   const arc=document.getElementById('arcnum');
   if(arc) arc.addEventListener('input',function(e){
     let val=e.target.value.replace(/[^0-9]/g,'');
@@ -498,63 +413,75 @@ document.addEventListener('DOMContentLoaded',()=>{
   });
 });
 
+// ── Upload ──
+function upload(input,key){
+  const file=input.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=function(e){
+    S.uploads[key]=e.target.result;
+    const prev=document.getElementById('prev-'+key);
+    if(prev&&file.type.startsWith('image/')){prev.src=e.target.result;prev.style.display='block';}
+    const done=document.getElementById('done-'+key);
+    if(done) done.style.display='flex';
+  };
+  reader.readAsDataURL(file);
+}
+
+// ── Signature ──
 let sigCanvas,sigCtx,drawing=false,hasSig=false;
 function initSig(){
   sigCanvas=document.getElementById('sigPad');
   sigCtx=sigCanvas.getContext('2d');
   const dpr=window.devicePixelRatio||1;
   const rect=sigCanvas.getBoundingClientRect();
-  sigCanvas.width=rect.width*dpr; sigCanvas.height=130*dpr;
+  sigCanvas.width=rect.width*dpr;sigCanvas.height=130*dpr;
   sigCtx.scale(dpr,dpr);
-  sigCtx.strokeStyle='#0B1F3A'; sigCtx.lineWidth=2.5; sigCtx.lineCap='round'; sigCtx.lineJoin='round';
-  sigCanvas.addEventListener('touchstart',e=>{e.preventDefault();drawing=true;const p=getPos(e);sigCtx.beginPath();sigCtx.moveTo(p.x,p.y);document.getElementById('sigHint').style.opacity='0';},{passive:false});
-  sigCanvas.addEventListener('touchmove', e=>{e.preventDefault();if(!drawing)return;const p=getPos(e);sigCtx.lineTo(p.x,p.y);sigCtx.stroke();hasSig=true;},{passive:false});
+  sigCtx.strokeStyle='#0B1F3A';sigCtx.lineWidth=2.5;sigCtx.lineCap='round';sigCtx.lineJoin='round';
+  const sh=()=>document.getElementById('sigHint').style.opacity='0';
+  sigCanvas.addEventListener('touchstart',e=>{e.preventDefault();drawing=true;const p=gp(e);sigCtx.beginPath();sigCtx.moveTo(p.x,p.y);sh();},{passive:false});
+  sigCanvas.addEventListener('touchmove', e=>{e.preventDefault();if(!drawing)return;const p=gp(e);sigCtx.lineTo(p.x,p.y);sigCtx.stroke();hasSig=true;},{passive:false});
   sigCanvas.addEventListener('touchend', ()=>{drawing=false;sigCtx.beginPath();});
-  sigCanvas.addEventListener('mousedown',e=>{drawing=true;const p=getPos(e);sigCtx.beginPath();sigCtx.moveTo(p.x,p.y);document.getElementById('sigHint').style.opacity='0';});
-  sigCanvas.addEventListener('mousemove',e=>{if(!drawing)return;const p=getPos(e);sigCtx.lineTo(p.x,p.y);sigCtx.stroke();hasSig=true;});
-  sigCanvas.addEventListener('mouseup',  ()=>{drawing=false;sigCtx.beginPath();});
+  sigCanvas.addEventListener('mousedown',e=>{drawing=true;const p=gp(e);sigCtx.beginPath();sigCtx.moveTo(p.x,p.y);sh();});
+  sigCanvas.addEventListener('mousemove',e=>{if(!drawing)return;const p=gp(e);sigCtx.lineTo(p.x,p.y);sigCtx.stroke();hasSig=true;});
+  sigCanvas.addEventListener('mouseup', ()=>{drawing=false;sigCtx.beginPath();});
 }
-function getPos(e){
+function gp(e){
   const rect=sigCanvas.getBoundingClientRect();
-  if(e.touches) return{x:e.touches[0].clientX-rect.left,y:e.touches[0].clientY-rect.top};
+  if(e.touches)return{x:e.touches[0].clientX-rect.left,y:e.touches[0].clientY-rect.top};
   return{x:e.clientX-rect.left,y:e.clientY-rect.top};
 }
-function clearSig(){sigCtx.clearRect(0,0,sigCanvas.width,sigCanvas.height);hasSig=false;document.getElementById('sigHint').style.opacity='1';}
+function clrSig(){sigCtx.clearRect(0,0,sigCanvas.width,sigCanvas.height);hasSig=false;document.getElementById('sigHint').style.opacity='1';}
 
-async function submitForm(){
-  if(!hasSig){ show('err-sig'); return; }
+// ── Submit ──
+async function doSubmit(){
+  if(!hasSig){show('err-sig');return;}
   hide('err-sig');
   document.getElementById('loading').classList.add('show');
-  const years=[...document.querySelectorAll('input[name="years"]:checked')].map(c=>c.value).join(', ');
   const formData=new FormData();
-  formData.append('국가',state.country);
+  formData.append('국가',S.country);
   formData.append('성명',v('name'));
   formData.append('등록번호',v('arcnum'));
   formData.append('연락처',v('phone'));
-  formData.append('환급신청연도',years);
-  formData.append('부양가족공제',state.qa[1]==='yes'?'해당':'미해당');
-  formData.append('월세세액공제',state.qa[2]==='yes'?'해당':'미해당');
-  formData.append('카드소득공제',state.qa[3]==='yes'?'해당':'미해당');
-  formData.append('의료비공제',  state.qa[4]==='yes'?'해당':'미해당');
+  formData.append('환급신청연도','2020, 2021, 2022, 2023, 2024');
   const appendFile=async(dataUrl,name)=>{
-    if(!dataUrl) return;
+    if(!dataUrl)return;
     const blob=await(await fetch(dataUrl)).blob();
     formData.append(name,blob,name+'.jpg');
   };
-  await appendFile(state.uploads.rc,     'Residence_Card');
-  await appendFile(state.uploads.family, '가족관계증명서');
-  await appendFile(state.uploads.rent,   '임대차계약서');
-  await appendFile(state.uploads.medical,'의료비영수증');
+  await appendFile(S.uploads.rc,'Residence_Card');
   await appendFile(sigCanvas.toDataURL('image/png'),'서명');
   try{
     const res=await fetch('https://formspree.io/f/xeevwllw',{method:'POST',body:formData,headers:{'Accept':'application/json'}});
     document.getElementById('loading').classList.remove('show');
     if(res.ok){
-      document.querySelectorAll('.step-panel').forEach(p=>p.classList.remove('active'));
+      document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
       document.getElementById('successScreen').classList.add('show');
       window.scrollTo(0,0);
     } else alert('제출 실패. 다시 시도해주세요.');
-  } catch{ document.getElementById('loading').classList.remove('show'); alert('네트워크 오류. 다시 시도해주세요.'); }
+  } catch{
+    document.getElementById('loading').classList.remove('show');
+    alert('네트워크 오류. 다시 시도해주세요.');
+  }
 }
 </script>
 </body>
