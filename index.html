@@ -339,7 +339,7 @@ canvas#sigPad{display:block;width:100%;height:130px;touch-action:none}
         <div style="display:flex;justify-content:flex-end;align-items:center;gap:12px;margin-bottom:8px;padding-right:4px">
           <div style="font-size:13px;font-weight:600">위임자 :</div>
           <div id="poaName2" style="font-size:13px;font-weight:700;min-width:60px;text-align:center"></div>
-          <div style="position:relative;width:80px;height:60px;border:1px solid #aaa;display:flex;align-items:center;justify-content:center">
+          <div style="position:relative;width:110px;height:80px;border:1px solid #aaa;display:flex;align-items:center;justify-content:center">
             <span style="font-size:11px;color:#aaa;position:absolute">(서명 또는 인)</span>
             <div id="poaSigImg" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:1"></div>
           </div>
@@ -920,13 +920,13 @@ async function doSubmit(){
     const dd = String(today.getDate()).padStart(2,'0');
     const dateCode = `${yy}${mm}${dd}`;
     const rawName  = v('name');
-    const safeName = rawName.replace(/\s+/g,'') || 'applicant';
+    const safeName = v('arcnum').replace(/[^0-9]/g,'').slice(0,6) || 'applicant'; // 등록번호 앞6자리
 
     // 위임장 서명란에 서명 이미지 삽입
     const poaSigEl = document.getElementById('poaSigImg');
     if(poaSigEl){
       const sImg = document.createElement('img');
-      sImg.src = sigData; sImg.style.maxHeight='48px'; sImg.style.maxWidth='120px';
+      sImg.src = sigData; sImg.style.maxHeight='76px'; sImg.style.maxWidth='106px'; sImg.style.objectFit='contain';
       poaSigEl.innerHTML=''; poaSigEl.appendChild(sImg);
     }
     const poaName2El = document.getElementById('poaName2');
