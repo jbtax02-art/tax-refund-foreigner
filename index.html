@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>세금환급 신청 – 세무회계 아진</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{--navy:#0B1F3A;--blue:#1A56A0;--gold:#F5A623;--gold-light:#FFF3D6;--green:#22C55E;--green-light:#F0FDF4;--bg:#F7F9FC;--white:#fff;--gray:#8492A6;--border:#DDE3EE;--error:#EF4444;--radius:14px;--shadow:0 4px 24px rgba(11,31,58,.10)}
@@ -479,90 +480,72 @@ async function doSubmit(){
     // 서명 이미지
     const sigData = sigCanvas.toDataURL('image/png');
 
-    // PDF 생성 (위임장 + 서명 + 외국인등록증 포함)
-
-    // 위임장 PDF 생성
+    // ── html2canvas로 화면 위임장 캡처 → PDF ──
     const { jsPDF } = window.jspdf;
     const pdf = new jsPDF({ orientation:'portrait', unit:'mm', format:'a4' });
-    const W=210, M=15;
-    let y=15;
+    const W = 210, M = 10;
 
+    // 위임장 박스 캡처
+    const poaEl = document.getElementById('poaBox');
+    const poaCanvas = await html2canvas(poaEl, {
+      scale: 2,
+      useCORS: true,
+      backgroundColor: '#ffffff',
+      logging: false
+    });
+    const poaImg = poaCanvas.toDataURL('image/png');
+    const poaW = W - M*2;
+    const poaH = poaW * (poaCanvas.height / poaCanvas.width);
+
+    // 헤더
     pdf.setFillColor(11,31,58);
-    pdf.rect(0,0,W,28,'F');
+    pdf.rect(0,0,W,18,'F');
     pdf.setTextColor(245,166,35);
     pdf.setFont('helvetica','bold');
-    pdf.setFontSize(16);
-    pdf.text('위 임 장', W/2, 12, {align:'center'});
+    pdf.setFontSize(14);
+    pdf.text('Tax Refund - Power of Attorney', W/2, 8, {align:'center'});
     pdf.setTextColor(255,255,255);
-    pdf.setFontSize(9);
-    pdf.text('세무회계 아진', W/2, 19, {align:'center'});
-    pdf.text('소득세 경정청구 세무대리 위임', W/2, 25, {align:'center'});
-    y=36;
+    pdf.setFontSize(8);
+    pdf.text(`${S.country} | ${v('name')} | ${v('arcnum')}`, W/2, 15, {align:'center'});
 
+    // 위임장 이미지 삽입
+    let y = 22;
+    const maxH = 200;
+    const finalH = Math.min(poaH, maxH);
+    pdf.addImage(poaImg, 'PNG', M, y, poaW, finalH);
+    y += finalH + 6;
+
+    // 서명
     pdf.setFillColor(247,249,252);
-    pdf.roundedRect(M,y,W-M*2,30,2,2,'F');
-    pdf.setTextColor(132,146,166); pdf.setFont('helvetica','normal'); pdf.setFontSize(8);
-    pdf.text('국가',M+4,y+7); pdf.text('성명',M+4,y+14); pdf.text('등록번호',M+4,y+21); pdf.text('연락처',M+4,y+28);
-    pdf.setTextColor(11,31,58); pdf.setFont('helvetica','bold'); pdf.setFontSize(10);
-    pdf.text(S.country,M+30,y+7); pdf.text(v('name'),M+30,y+14);
-    pdf.text(v('arcnum'),M+30,y+21); pdf.text(v('phone'),M+30,y+28);
-    y+=36;
-
-    pdf.setFillColor(11,31,58);
-    pdf.roundedRect(M,y,W-M*2,14,2,2,'F');
-    pdf.setTextColor(245,166,35); pdf.setFontSize(8);
-    pdf.text('수임인', M+4, y+6);
-    pdf.setTextColor(255,255,255); pdf.setFontSize(10);
-    pdf.text('세무회계 아진', M+4, y+12);
-    y+=20;
-
-    pdf.setTextColor(11,31,58); pdf.setFont('helvetica','bold'); pdf.setFontSize(9);
-    pdf.text('【 위임 내용 】', M, y+5); y+=8;
-    pdf.setFillColor(255,255,255); pdf.setDrawColor(221,227,238);
-    pdf.roundedRect(M,y,W-M*2,28,2,2,'FD');
-    pdf.setFont('helvetica','normal'); pdf.setFontSize(8.5); pdf.setTextColor(68,68,68);
-    pdf.text('하기 서류에 관한 출력업무 위임의 건', M+4, y+6);
-    pdf.text('1. 종합소득세 2020년~2024년 신고서', M+4, y+13);
-    pdf.text('2. 종합소득세 2020년~2024년 신고서 첨부자료', M+4, y+20);
-    pdf.text('3. 상기 자료 외 경정청구 관련된 자료', M+4, y+27);
-    y+=34;
-
-    pdf.setFillColor(255,243,214);
-    pdf.roundedRect(M,y,W-M*2,16,2,2,'F');
-    pdf.setDrawColor(245,166,35); pdf.setLineWidth(0.5);
-    pdf.line(M,y,M,y+16);
-    pdf.setTextColor(11,31,58); pdf.setFont('helvetica','bold'); pdf.setFontSize(9);
-    pdf.text('【 수수료 】  실제 환급세액의 20%', M+4, y+7);
-    pdf.setFont('helvetica','normal'); pdf.setFontSize(8); pdf.setTextColor(132,146,166);
-    pdf.text('환급이 없을 경우 수수료는 발생하지 않습니다.', M+4, y+13);
-    y+=22;
-
-    pdf.setTextColor(11,31,58); pdf.setFont('helvetica','bold'); pdf.setFontSize(9);
-    pdf.text('서명 (Signature)', M, y+5); y+=8;
+    pdf.roundedRect(M, y, W-M*2, 8, 2, 2, 'F');
+    pdf.setTextColor(132,146,166); pdf.setFontSize(7);
+    pdf.text('Signature', M+3, y+5);
+    y += 10;
     pdf.setDrawColor(221,227,238); pdf.setLineWidth(0.3);
-    pdf.roundedRect(M,y,W-M*2,30,2,2,'D');
-    pdf.addImage(sigData,'PNG',M+2,y+2,W-M*2-4,26);
-    y+=36;
+    pdf.roundedRect(M, y, W-M*2, 28, 2, 2, 'D');
+    pdf.addImage(sigData, 'PNG', M+2, y+2, W-M*2-4, 24);
+    y += 32;
 
-    const today=new Date();
-    pdf.setFont('helvetica','normal'); pdf.setFontSize(9); pdf.setTextColor(68,68,68);
-    pdf.text(`작성일: ${today.getFullYear()}년 ${today.getMonth()+1}월 ${today.getDate()}일`, W-M, y, {align:'right'});
+    // 날짜
+    const today = new Date();
+    pdf.setFont('helvetica','normal'); pdf.setFontSize(8); pdf.setTextColor(100,100,100);
+    pdf.text(`Date: ${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`, W-M, y, {align:'right'});
 
     // 외국인등록증 2페이지
     if(S.uploads.rc){
       pdf.addPage();
       pdf.setFillColor(11,31,58); pdf.rect(0,0,W,18,'F');
-      pdf.setTextColor(245,166,35); pdf.setFont('helvetica','bold'); pdf.setFontSize(13);
-      pdf.text('Residence Card (외국인등록증)', W/2, 12, {align:'center'});
-      const img=new Image(); img.src=S.uploads.rc;
-      await new Promise(r=>{img.onload=r;img.onerror=r;});
+      pdf.setTextColor(245,166,35); pdf.setFont('helvetica','bold'); pdf.setFontSize(12);
+      pdf.text('Residence Card', W/2, 11, {align:'center'});
+      const img = new Image(); img.src = S.uploads.rc;
+      await new Promise(r=>{img.onload=r; img.onerror=r;});
       const iw=img.naturalWidth, ih=img.naturalHeight;
-      const maxW=W-M*2, maxH=120;
+      const maxW=W-M*2, rcMaxH=150;
       let dw=maxW, dh=dw*(ih/iw);
-      if(dh>maxH){dh=maxH;dw=dh*(iw/ih);}
-      pdf.addImage(S.uploads.rc,'JPEG',(W-dw)/2,26,dw,dh);
+      if(dh>rcMaxH){dh=rcMaxH; dw=dh*(iw/ih);}
+      pdf.addImage(S.uploads.rc,'JPEG',(W-dw)/2, 24, dw, dh);
       pdf.setTextColor(132,146,166); pdf.setFont('helvetica','normal'); pdf.setFontSize(8);
-      pdf.text(`성명: ${v('name')}  |  등록번호: ${v('arcnum')}  |  국가: ${S.country}`, W/2, 26+dh+10, {align:'center'});
+      pdf.text(`Name: ${v('name')}  |  Reg.No: ${v('arcnum')}  |  Country: ${S.country}`, W/2, 24+dh+8, {align:'center'});
     }
 
     const pdfBlob = pdf.output('blob');
