@@ -274,29 +274,80 @@ canvas#sigPad{display:block;width:100%;height:130px;touch-action:none}
     <div class="sumbox" id="sb3"></div>
     <div class="stitle"><div class="num">3</div> 위임장 서명</div>
     <p style="font-size:13px;color:var(--gray);margin-bottom:12px;line-height:1.5">아래 위임장을 확인하신 후 손가락으로 서명해 주세요.</p>
-    <div class="poa" id="poaBox">
-      <div class="poa-kr">
-        <div class="lang-badge">🇰🇷 한국어</div>
-        <div class="poa-title">위 임 장</div>
-        <div class="poa-sub">소득세 경정청구 세무대리 위임</div>
-        <div class="poa-grid">
-          <span class="poa-lbl">수임인</span><span class="poa-val">세무회계 아진</span>
+    <div id="poaBox" style="background:#fff;border:1px solid #ccc;font-family:Arial,sans-serif;padding:0;width:100%">
+      <!-- 한국어 공문서 스타일 -->
+      <div style="padding:28px 28px 20px">
+        <div style="text-align:center;margin-bottom:24px">
+          <div style="font-size:22px;font-weight:900;letter-spacing:8px;color:#0B1F3A;border-bottom:3px double #0B1F3A;display:inline-block;padding-bottom:6px">위 임 장</div>
+          <div style="font-size:11px;color:#666;margin-top:6px">종합소득세 경정청구 세무대리 위임</div>
         </div>
-        <p class="poa-body">본인은 위 수임인 <strong>세무회계 아진</strong>을 대리인으로 정하고, 아래 사항에 관한 일체의 세무대리 행위를 위임합니다.</p>
-        <div class="poa-scope">
-          <div class="poa-scope-t">【 위임 내용 】 하기 서류에 관한 출력업무 위임의 건</div>
-          <div>1. 종합소득세 2020년~2024년 신고서</div>
-          <div>2. 종합소득세 2020년~2024년 신고서 첨부자료</div>
-          <div>3. 상기 자료 외 경정청구 관련된 자료</div>
+
+        <!-- 위임자 표 -->
+        <table style="width:100%;border-collapse:collapse;margin-bottom:12px;font-size:12px">
+          <tr>
+            <td rowspan="3" style="border:1px solid #999;text-align:center;font-weight:700;width:56px;background:#f5f5f5;vertical-align:middle;font-size:13px">위<br>임<br>자</td>
+            <td style="border:1px solid #999;padding:6px 10px;background:#fafafa;font-weight:600;width:90px">성&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;명</td>
+            <td id="poaName" style="border:1px solid #999;padding:6px 10px;font-weight:700;font-size:13px"></td>
+          </tr>
+          <tr>
+            <td style="border:1px solid #999;padding:6px 10px;background:#fafafa;font-weight:600">등&nbsp;록&nbsp;번&nbsp;호</td>
+            <td id="poaArc" style="border:1px solid #999;padding:6px 10px;font-weight:700;font-size:13px;letter-spacing:1px"></td>
+          </tr>
+          <tr>
+            <td style="border:1px solid #999;padding:6px 10px;background:#fafafa;font-weight:600">국&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;가</td>
+            <td id="poaCountry" style="border:1px solid #999;padding:6px 10px;font-weight:700;font-size:13px"></td>
+          </tr>
+        </table>
+
+        <!-- 수임자 표 -->
+        <table style="width:100%;border-collapse:collapse;margin-bottom:16px;font-size:12px">
+          <tr>
+            <td rowspan="2" style="border:1px solid #999;text-align:center;font-weight:700;width:56px;background:#f5f5f5;vertical-align:middle;font-size:13px">수<br>임<br>자</td>
+            <td style="border:1px solid #999;padding:6px 10px;background:#fafafa;font-weight:600;width:90px">상&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;호</td>
+            <td style="border:1px solid #999;padding:6px 10px;font-weight:700;font-size:13px">세무회계 아진</td>
+          </tr>
+          <tr>
+            <td style="border:1px solid #999;padding:6px 10px;background:#fafafa;font-weight:600">관&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;계</td>
+            <td style="border:1px solid #999;padding:6px 10px">세무대리인</td>
+          </tr>
+        </table>
+
+        <!-- 위임 내용 -->
+        <div style="border:1px solid #999;padding:12px 14px;margin-bottom:12px;font-size:12px">
+          <div style="font-weight:700;margin-bottom:8px">【 위임 내용 】</div>
+          <div style="color:#333;margin-bottom:4px">하기 서류에 관한 출력업무 위임의 건</div>
+          <div style="color:#333;padding-left:8px;line-height:1.8">
+            1. 종합소득세 2020년~2024년 신고서<br>
+            2. 종합소득세 2020년~2024년 신고서 첨부자료<br>
+            3. 상기 자료 외 경정청구 관련된 자료
+          </div>
         </div>
-        <div class="poa-fee">
-          <div class="poa-fee-t">【 수수료 】</div>
-          <div><strong>실제 환급세액의 20%</strong></div>
-          <div style="font-size:11px;color:var(--gray);margin-top:2px">환급이 없을 경우 수수료는 발생하지 않습니다.</div>
+
+        <!-- 수수료 -->
+        <div style="border:1px solid #F5A623;padding:10px 14px;background:#FFF8E8;margin-bottom:16px;font-size:12px">
+          <span style="font-weight:700">【 수수료 】</span>&nbsp;&nbsp;
+          <strong>실제 환급세액의 20%</strong>
+          <span style="color:#999;font-size:11px;margin-left:8px">(환급이 없을 경우 수수료 없음)</span>
         </div>
-        <p class="poa-note">본인은 위 위임 내용을 충분히 이해하였으며, 제공한 모든 정보가 사실임을 확인합니다.</p>
+
+        <div style="font-size:11px;color:#555;margin-bottom:20px">본인은 위 위임 내용을 충분히 이해하였으며, 제공한 모든 정보가 사실임을 확인합니다.</div>
+
+        <!-- 날짜 -->
+        <div id="poaDate" style="text-align:center;font-size:13px;margin-bottom:20px;font-weight:600"></div>
+
+        <!-- 서명란 -->
+        <div style="display:flex;justify-content:flex-end;align-items:center;gap:16px;margin-bottom:8px">
+          <div style="font-size:13px;font-weight:600">위임자 :</div>
+          <div id="poaName2" style="font-size:13px;min-width:80px;border-bottom:1px solid #333;padding-bottom:2px;font-weight:700"></div>
+          <div style="font-size:12px;color:#666">(서명 또는 인)</div>
+        </div>
+
+        <!-- 구분선 -->
+        <div style="border-top:2px solid #0B1F3A;margin:20px 0"></div>
+
+        <!-- 국가별 번역 -->
+        <div id="poaLang" style="font-size:11px;color:#444"></div>
       </div>
-      <div id="poaLang"></div>
     </div>
     <div class="field">
       <label>서명 Signature <span style="font-size:10px;font-weight:400">(손가락으로 서명)</span></label>
@@ -315,9 +366,14 @@ canvas#sigPad{display:block;width:100%;height:130px;touch-action:none}
 
 <div class="card success" id="successScreen">
   <div class="sicon">✅</div>
-  <h2>신청 완료!</h2>
-  <p>신청이 완료되었습니다.<br><strong>3영업일 이내</strong> 연락드립니다.<br><br>💰 환급 없으면 수수료 없습니다.</p>
-  <div style="margin-top:20px;padding:13px;background:var(--bg);border-radius:10px;font-size:13px;color:var(--gray);line-height:1.6">
+  <div id="successMsgLang" style="font-size:16px;font-weight:700;color:var(--navy);margin-bottom:8px;text-align:center"></div>
+  <div id="successSubLang" style="font-size:13px;color:var(--gray);text-align:center;margin-bottom:6px;line-height:1.6"></div>
+  <div style="background:var(--bg);border-radius:10px;padding:12px 14px;margin:12px 0;border-left:3px solid var(--navy)">
+    <div style="font-size:12px;color:var(--gray);margin-bottom:4px">🇰🇷 한국어</div>
+    <div style="font-size:14px;font-weight:600;color:var(--navy)">신청 완료!</div>
+    <div style="font-size:13px;color:var(--gray);margin-top:4px;line-height:1.6">신청이 완료되었습니다. <strong>3영업일 이내</strong> 연락드립니다.<br>💰 환급 없으면 수수료 없습니다.</div>
+  </div>
+  <div style="padding:12px 14px;background:var(--bg);border-radius:10px;font-size:13px;color:var(--gray);line-height:1.6">
     📱 카카오톡 채널 <strong style="color:var(--navy)">세무회계 아진</strong> 검색
   </div>
 </div>
@@ -650,27 +706,58 @@ function buildHook(){
 }
 
 // ── 위임장 번역 ──
+// ── 성공 메시지 다국어 ──
+const SUCCESS_MSG = {
+  zh: { title:'申请完成！', sub:'我们将在3个工作日内与您联系。\n💰 无退款 = 不收费' },
+  vi: { title:'Đăng ký hoàn tất!', sub:'Chúng tôi sẽ liên hệ với bạn trong vòng 3 ngày làm việc.\n💰 Không hoàn tiền = Không mất phí' },
+  en: { title:'Application Complete!', sub:'We will contact you within 3 business days.\n💰 No refund = No fee' },
+  th: { title:'การสมัครเสร็จสมบูรณ์!', sub:'เราจะติดต่อคุณภายใน 3 วันทำการ\n💰 ไม่มีคืนเงิน = ไม่มีค่าธรรมเนียม' },
+  uz: { title:"Ariza qabul qilindi!", sub:"Biz siz bilan 3 ish kuni ichida bog'lanamiz.\n💰 Qaytarilmasa — haq yo'q" },
+  tl: { title:'Kumpleto na ang Aplikasyon!', sub:'Makikipag-ugnayan kami sa inyo sa loob ng 3 araw ng trabaho.\n💰 Walang refund = Walang bayad' },
+  ja: { title:'申し込み完了！', sub:'3営業日以内にご連絡いたします。\n💰 還付なし＝手数料なし' },
+  ne: { title:'आवेदन पूरा भयो!', sub:'हामी ३ कार्य दिनभित्र तपाईंलाई सम्पर्क गर्नेछौं।\n💰 फिर्ता नभए शुल्क छैन' },
+  id: { title:'Pendaftaran Selesai!', sub:'Kami akan menghubungi Anda dalam 3 hari kerja.\n💰 Tidak ada pengembalian = Tidak ada biaya' },
+};
+
+function showSuccessMsg(){
+  const m = SUCCESS_MSG[S.lang] || SUCCESS_MSG['en'];
+  const el = document.getElementById('successMsgLang');
+  const sub = document.getElementById('successSubLang');
+  if(el) el.textContent = m.title;
+  if(sub) sub.innerHTML = m.sub.replace(/\n/g,'<br>');
+}
+
 function buildPOA(){
+  // 위임자 정보 채우기
+  const today = new Date();
+  const dateStr = `${today.getFullYear()}년   ${today.getMonth()+1}월   ${today.getDate()}일`;
+  const el = (id) => document.getElementById(id);
+  if(el('poaName'))    el('poaName').textContent    = v('name');
+  if(el('poaName2'))   el('poaName2').textContent   = v('name');
+  if(el('poaArc'))     el('poaArc').textContent     = v('arcnum');
+  if(el('poaCountry')) el('poaCountry').textContent = S.country;
+  if(el('poaDate'))    el('poaDate').textContent    = dateStr;
+
+  // 국가별 번역 삽입
   const p = POA[S.lang] || POA['en'];
-  document.getElementById('poaLang').innerHTML = `
-    <div class="lang-badge">${p.badge}</div>
-    <div class="poa-title">${p.title}</div>
-    <div class="poa-sub">${p.sub}</div>
-    <div class="poa-grid">
-      <span class="poa-lbl">수임인</span><span class="poa-val">${p.rep}</span>
-    </div>
-    <p class="poa-body">${p.body}</p>
-    <div class="poa-scope">
-      <div class="poa-scope-t">${p.scopeT}</div>
-      ${p.scope.map(s=>`<div>${s}</div>`).join('')}
-    </div>
-    <div class="poa-fee">
-      <div class="poa-fee-t">${p.feeT}</div>
-      <div>${p.fee}</div>
-      <div style="font-size:11px;color:var(--gray);margin-top:2px">${p.feeNote}</div>
-    </div>
-    <p class="poa-note">${p.note}</p>
-  `;
+  if(S.lang !== 'ko'){
+    document.getElementById('poaLang').innerHTML = `
+      <div style="background:#f0f4ff;border-radius:6px;padding:10px 12px;margin-bottom:8px">
+        <div style="font-size:10px;color:#666;margin-bottom:6px">${p.badge} — 번역본</div>
+        <div style="font-size:11px;font-weight:700;text-align:center;margin-bottom:4px">${p.title}</div>
+        <div style="font-size:10px;color:#555;margin-bottom:4px">${p.sub}</div>
+        <div style="font-size:10px;color:#333;margin-bottom:6px">${p.body}</div>
+        <div style="font-size:10px;color:#333;line-height:1.6">
+          ${p.scopeT}<br>
+          ${p.scope.join('<br>')}
+        </div>
+        <div style="margin-top:6px;font-size:10px;background:#FFF8E8;padding:6px;border-left:2px solid #F5A623">
+          ${p.feeT} ${p.fee} (${p.feeNote})
+        </div>
+        <div style="margin-top:6px;font-size:10px;color:#666">${p.note}</div>
+      </div>
+    `;
+  }
 }
 
 // ── Helpers ──
@@ -808,41 +895,46 @@ async function doSubmit(){
     infoPdf.addImage(sigData, 'PNG', M2+2, iy+2, W2-M2*2-4, 21);
 
     const infoBlob = infoPdf.output('blob');
-    formData.append('attachment2', new File([infoBlob], `${safeName}_신청정보_${dateStr}.pdf`, {type:'application/pdf'}));
+    formData.append('attachment2', new File([infoBlob], `${safeName}_정보_${dateStr}.pdf`, {type:'application/pdf'}));
 
-    // ── 위임장 PDF (html2canvas) ──
+    // ── 위임장 PDF (html2canvas → A4 꽉 채우기) ──
     const pdf = new jsPDF({ orientation:'portrait', unit:'mm', format:'a4' });
-    const W=210, M=10;
+    const W=210, H=297, M=12;
 
     const poaEl = document.getElementById('poaBox');
+    // 캡처 전 poaBox 너비를 A4 비율로 고정
+    const origWidth = poaEl.style.width;
+    poaEl.style.width = '794px';
+
     const poaCanvas = await html2canvas(poaEl, {
-      scale:2, useCORS:true, allowTaint:true, backgroundColor:'#ffffff', logging:false,
-      onclone:(doc)=>{ const el=doc.getElementById('poaBox'); if(el) el.style.fontFamily='Arial,sans-serif'; }
+      scale: 2,
+      useCORS: true,
+      allowTaint: true,
+      backgroundColor: '#ffffff',
+      logging: false,
+      width: 794,
+      onclone:(doc)=>{
+        const el=doc.getElementById('poaBox');
+        if(el){ el.style.width='794px'; el.style.fontFamily='Arial,sans-serif'; }
+      }
     });
+    poaEl.style.width = origWidth;
+
     const poaImg = poaCanvas.toDataURL('image/png');
-    const poaW   = W-M*2;
-    const poaH   = Math.min(poaW*(poaCanvas.height/poaCanvas.width), 200);
+    const poaW   = W - M*2;
+    const poaH   = poaW * (poaCanvas.height / poaCanvas.width);
+    const finalH = Math.min(poaH, H - M*2);
 
-    pdf.setFillColor(11,31,58); pdf.rect(0,0,W,18,'F');
-    pdf.setTextColor(245,166,35); pdf.setFont('helvetica','bold'); pdf.setFontSize(14);
-    pdf.text('Tax Refund - Power of Attorney', W/2, 8, {align:'center'});
-    pdf.setTextColor(255,255,255); pdf.setFontSize(8);
-    pdf.text(`${S.country} | ${v('name')} | ${v('arcnum')}`, W/2, 15, {align:'center'});
+    // 헤더 없이 위임장만 A4에 꽉 채우기
+    pdf.addImage(poaImg, 'PNG', M, M, poaW, finalH);
 
-    let y=22;
-    pdf.addImage(poaImg, 'PNG', M, y, poaW, poaH);
-    y += poaH+6;
-
-    pdf.setFillColor(247,249,252); pdf.roundedRect(M,y,W-M*2,8,2,2,'F');
-    pdf.setTextColor(132,146,166); pdf.setFontSize(7);
-    pdf.text('Signature', M+3, y+5);
-    y+=10;
-    pdf.setDrawColor(221,227,238); pdf.setLineWidth(0.3);
-    pdf.roundedRect(M,y,W-M*2,28,2,2,'D');
-    pdf.addImage(sigData,'PNG',M+2,y+2,W-M*2-4,24);
-    y+=32;
-    pdf.setFont('helvetica','normal'); pdf.setFontSize(8); pdf.setTextColor(100,100,100);
-    pdf.text(`Date: ${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`, W-M, y, {align:'right'});
+    // 서명 (위임장 아래 여백에)
+    const sigY = M + finalH + 6;
+    if(sigY + 30 < H - M){
+      pdf.setDrawColor(180,180,180); pdf.setLineWidth(0.3);
+      pdf.roundedRect(M, sigY, W-M*2, 28, 2, 2, 'D');
+      pdf.addImage(sigData, 'PNG', M+2, sigY+2, W-M*2-4, 24);
+    }
 
     if(S.uploads.rc){
       pdf.addPage();
@@ -868,6 +960,7 @@ async function doSubmit(){
     if(res.ok){
       document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
       document.getElementById('successScreen').classList.add('show');
+      showSuccessMsg();
       window.scrollTo(0,0);
     } else {
       const err = await res.json();
