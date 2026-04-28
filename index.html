@@ -1008,20 +1008,6 @@ async function doSubmit(){
     const infoH = Math.min(infoW*(infoCanvas.height/infoCanvas.width), 277);
     infoPdf.addImage(infoCanvas.toDataURL('image/png'), 'PNG', M2, M2, infoW, infoH);
 
-    // 외국인등록증 2페이지
-    if(S.uploads.rc){
-      infoPdf.addPage();
-      infoPdf.setFillColor(11,31,58); infoPdf.rect(0,0,210,18,'F');
-      infoPdf.setTextColor(245,166,35); infoPdf.setFont('helvetica','bold'); infoPdf.setFontSize(12);
-      infoPdf.text('Residence Card', 105, 11, {align:'center'});
-      const img2=new Image(); img2.src=S.uploads.rc;
-      await new Promise(r=>{img2.onload=r; img2.onerror=r;});
-      const iw2=img2.naturalWidth, ih2=img2.naturalHeight;
-      let dw2=190, dh2=dw2*(ih2/iw2);
-      if(dh2>150){dh2=150; dw2=dh2*(iw2/ih2);}
-      infoPdf.addImage(S.uploads.rc,'JPEG',(210-dw2)/2, 24, dw2, dh2);
-    }
-
     const infoBlob = infoPdf.output('blob');
     formData.append('attachment2', new File([infoBlob], `${dateCode}_${arcNum}_INFO.pdf`, {type:'application/pdf'}));
     // ── 위임장 PDF (html2canvas → A4 꽉 채우기) ──
