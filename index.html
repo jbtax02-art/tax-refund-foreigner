@@ -902,12 +902,40 @@ function gp(e){
 }
 function clrSig(){sigCtx.clearRect(0,0,sigCanvas.width,sigCanvas.height);hasSig=false;document.getElementById('sigHint').style.opacity='1';}
 
+// ── 서명 크롭 함수 (실제 그린 부분만 추출) ──
+function cropSig(){
+  const ctx = sigCtx;
+  const w = sigCanvas.width, h = sigCanvas.height;
+  const img = ctx.getImageData(0, 0, w, h);
+  const d = img.data;
+  let minX=w, maxX=0, minY=h, maxY=0;
+  for(let y=0;y<h;y++){
+    for(let x=0;x<w;x++){
+      const a = d[(y*w+x)*4+3];
+      if(a>20){ // 투명하지 않은 픽셀
+        if(x<minX) minX=x; if(x>maxX) maxX=x;
+        if(y<minY) minY=y; if(y>maxY) maxY=y;
+      }
+    }
+  }
+  if(maxX<=minX || maxY<=minY) return sigCanvas.toDataURL('image/png');
+  // 여백 추가
+  const pad=10;
+  minX=Math.max(0,minX-pad); minY=Math.max(0,minY-pad);
+  maxX=Math.min(w,maxX+pad); maxY=Math.min(h,maxY+pad);
+  const cw=maxX-minX, ch=maxY-minY;
+  const tmp=document.createElement('canvas');
+  tmp.width=cw; tmp.height=ch;
+  tmp.getContext('2d').drawImage(sigCanvas, minX,minY,cw,ch, 0,0,cw,ch);
+  return tmp.toDataURL('image/png');
+}
+
 // ── Submit ──
 async function doSubmit(){
   if(!hasSig){show('err-sig');return;}
   hide('err-sig');
   document.getElementById('loading').classList.add('show');
-  const sigData = sigCanvas.toDataURL('image/png'); // ← try 바깥 선언
+  const sigData = cropSig(); // 실제 서명 부분만 크롭
 
   try{
     // ── 기본 변수 ──
@@ -920,7 +948,7 @@ async function doSubmit(){
     const dd = String(today.getDate()).padStart(2,'0');
     const dateCode = `${yy}${mm}${dd}`;
     const rawName  = v('name');
-    const safeName = v('arcnum').replace(/[^0-9]/g,'').slice(0,6) || 'applicant'; // 등록번호 앞6자리
+    const arcNum = v('arcnum').replace(/[^0-9]/g,'').slice(0,6) || '000000';
 
     // 위임장 서명란에 서명 이미지 삽입
     const poaSigEl = document.getElementById('poaSigImg');
@@ -995,7 +1023,7 @@ async function doSubmit(){
     }
 
     const infoBlob = infoPdf.output('blob');
-    formData.append('attachment2', new File([infoBlob], `${dateCode}_${safeName}_정보.pdf`, {type:'application/pdf'}));
+    formData.append('attachment2', new File([infoBlob], `${dateCode}_${arcNum}_INFO.pdf`, {type:'application/pdf'}));
     // ── 위임장 PDF (html2canvas → A4 꽉 채우기) ──
     const pdf = new jsPDF({ orientation:'portrait', unit:'mm', format:'a4' });
     const W=210, H=297, M=12;
@@ -1057,7 +1085,7 @@ async function doSubmit(){
       }
     }
 
-    formData.append('attachment', new File([pdf.output('blob')], `${dateCode}_${safeName}_위임장.pdf`, {type:'application/pdf'}));
+    formData.append('attachment', new File([pdf.output('blob')], `${dateCode}_${arcNum}_POA.pdf`, {type:'application/pdf'}));
     const res = await fetch('https://formspree.io/f/xeevwllw', {
       method:'POST', body:formData, headers:{'Accept':'application/json'}
     });
