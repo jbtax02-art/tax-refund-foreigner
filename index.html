@@ -907,6 +907,7 @@ async function doSubmit(){
   if(!hasSig){show('err-sig');return;}
   hide('err-sig');
   document.getElementById('loading').classList.add('show');
+  const sigData = sigCanvas.toDataURL('image/png'); // ← try 바깥 선언
 
   try{
     // ── 기본 변수 ──
@@ -920,7 +921,6 @@ async function doSubmit(){
     const dateCode = `${yy}${mm}${dd}`;
     const rawName  = v('name');
     const safeName = rawName.replace(/\s+/g,'') || 'applicant';
-    const sigData  = sigCanvas.toDataURL('image/png');
 
     // 위임장 서명란에 서명 이미지 삽입
     const poaSigEl = document.getElementById('poaSigImg');
