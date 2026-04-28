@@ -746,6 +746,7 @@ async function doSubmit(){
     const formData = new FormData();
     const empValSubmit = document.getElementById('empValue').value;
     const house = document.querySelector('input[name="house"]:checked');
+    formData.append('국가', S.country);
     formData.append('성명', v('name'));
     formData.append('등록번호', v('arcnum'));
     formData.append('연락처', v('phone'));
