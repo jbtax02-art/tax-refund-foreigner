@@ -773,7 +773,7 @@ async function doSubmit(){
       ['Reg. No. (등록번호)', v('arcnum')],
       ['Phone (연락처)', v('phone')],
       ['Refund Years (신청연도)', '2020 ~ 2024'],
-      ['Employment (근로소득자)', emp ? (emp.value==='yes'?'✅ 근로소득자 (Employee)':'❌ 비근로소득자') : '-'],
+      ['Employment (근로소득자)', empValSubmit==='yes'?'✅ 근로소득자 (Employee)':'❌ 비근로소득자'],
       ['Housing (주거형태)', house ? house.value : '-'],
       ['Privacy Consent (개인정보동의)', '✅ 동의'],
       ['Date (신청일)', new Date().toLocaleDateString('ko-KR')],
