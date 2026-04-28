@@ -179,6 +179,56 @@ canvas#sigPad{display:block;width:100%;height:130px;touch-action:none}
     <div style="background:var(--gold-light);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:10px 13px;margin-bottom:13px;font-size:13px;color:var(--navy)">
       📅 환급 신청 연도: <strong>2020년 ~ 2024년 (5년치)</strong>
     </div>
+
+    <!-- 근로소득자 여부 -->
+    <div class="field">
+      <label>근로소득자 여부 (Employment Type)</label>
+      <div id="empBox" style="display:flex;flex-direction:column;gap:8px;margin-top:4px">
+        <div style="display:flex;align-items:center;gap:10px;padding:12px 14px;border:2px solid var(--border);border-radius:10px;cursor:pointer;transition:all .2s;background:var(--white)" id="empYesLabel" onclick="selectEmp('yes')">
+          <div id="empYesDot" style="width:20px;height:20px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s"></div>
+          <span>
+            <strong id="empYesText" style="font-size:14px">✅ 근로소득자</strong>
+            <span id="empYesSub" style="display:block;font-size:11px;color:var(--gray);margin-top:2px">Employee (회사에 고용되어 급여를 받는 분)</span>
+          </span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;padding:12px 14px;border:2px solid var(--border);border-radius:10px;cursor:pointer;transition:all .2s;background:var(--white)" id="empNoLabel" onclick="selectEmp('no')">
+          <div id="empNoDot" style="width:20px;height:20px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s"></div>
+          <span>
+            <strong id="empNoText" style="font-size:14px">❌ 비근로소득자</strong>
+            <span id="empNoSub" style="display:block;font-size:11px;color:var(--gray);margin-top:2px">Non-employee (사업소득·기타소득 등)</span>
+          </span>
+        </div>
+      </div>
+      <input type="hidden" id="empValue" value="">
+      <div class="err" id="err-emp">근로소득자 여부를 선택해주세요.</div>
+    </div>
+
+    <!-- 주거 형태 -->
+    <div class="field">
+      <label>주거 형태 (Housing Type)</label>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:4px">
+        <label style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:12px 6px;border:1.5px solid var(--border);border-radius:10px;cursor:pointer;transition:all .2s;text-align:center" id="house1">
+          <input type="radio" name="house" value="월세" style="display:none" onchange="selectHouse(this,'house1')">
+          <span style="font-size:20px">🏠</span>
+          <strong id="houseLabel1" style="font-size:12px">월세</strong>
+          <span id="houseSub1" style="font-size:10px;color:var(--gray)">Monthly rent</span>
+        </label>
+        <label style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:12px 6px;border:1.5px solid var(--border);border-radius:10px;cursor:pointer;transition:all .2s;text-align:center" id="house2">
+          <input type="radio" name="house" value="전세" style="display:none" onchange="selectHouse(this,'house2')">
+          <span style="font-size:20px">🏢</span>
+          <strong id="houseLabel2" style="font-size:12px">전세</strong>
+          <span id="houseSub2" style="font-size:10px;color:var(--gray)">Jeonse</span>
+        </label>
+        <label style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:12px 6px;border:1.5px solid var(--border);border-radius:10px;cursor:pointer;transition:all .2s;text-align:center" id="house3">
+          <input type="radio" name="house" value="자가" style="display:none" onchange="selectHouse(this,'house3')">
+          <span style="font-size:20px">🏡</span>
+          <strong id="houseLabel3" style="font-size:12px">자가</strong>
+          <span id="houseSub3" style="font-size:10px;color:var(--gray)">Own house</span>
+        </label>
+      </div>
+      <div class="err" id="err-house">주거 형태를 선택해주세요.</div>
+    </div>
+
     <div style="margin-bottom:13px">
       <label style="display:block;font-size:11px;font-weight:500;color:var(--gray);letter-spacing:.04em;text-transform:uppercase;margin-bottom:5px">Residence Card (외국인등록증) 📷</label>
       <div class="uarea" onclick="document.getElementById('frc').click()">
@@ -190,6 +240,28 @@ canvas#sigPad{display:block;width:100%;height:130px;touch-action:none}
         <div class="udone" id="done-rc">✅ 업로드 완료</div>
       </div>
       <div class="err" id="err-rc">외국인등록증을 업로드해주세요.</div>
+    </div>
+
+    <!-- 개인정보 수집 동의 -->
+    <div style="border:1.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:13px;background:var(--bg)">
+      <div id="privacyTitle" style="font-family:'Syne',sans-serif;font-weight:700;font-size:13px;color:var(--navy);margin-bottom:10px">📋 개인정보 수집 및 이용 동의</div>
+      <table style="width:100%;font-size:12px;border-collapse:collapse;margin-bottom:10px">
+        <tr><td id="privacyItem1" style="padding:5px 8px;background:white;font-weight:600;border-bottom:1px solid var(--border);width:90px">수집 항목</td><td id="privacyItem1Val" style="padding:5px 8px;border-bottom:1px solid var(--border)">이름, 연락처, 외국인등록번호, 서명</td></tr>
+        <tr><td id="privacyItem2" style="padding:5px 8px;background:white;font-weight:600;border-bottom:1px solid var(--border)">이용 목적</td><td id="privacyItem2Val" style="padding:5px 8px;border-bottom:1px solid var(--border)">소득세 경정청구 세무대리</td></tr>
+        <tr><td id="privacyItem3" style="padding:5px 8px;background:white;font-weight:600">보유 기간</td><td id="privacyItem3Val" style="padding:5px 8px;color:var(--error);font-weight:600">경정청구 완료 후 5년</td></tr>
+      </table>
+      <div id="privacyLangBox" style="font-size:11px;color:var(--gray);line-height:1.6;background:white;border-radius:8px;padding:10px;margin-bottom:10px"></div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <label style="display:flex;align-items:center;gap:10px;padding:12px 14px;border:1.5px solid var(--green);border-radius:10px;cursor:pointer;background:var(--green-light)">
+          <input type="radio" name="privacy" value="yes" style="width:18px;height:18px;accent-color:var(--green)" onchange="selectPrivacy(this)">
+          <span id="privacyYesTxt" style="font-size:14px;font-weight:600;color:#166534">✅ 동의합니다 (I Agree)</span>
+        </label>
+        <label style="display:flex;align-items:center;gap:10px;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;cursor:pointer">
+          <input type="radio" name="privacy" value="no" style="width:18px;height:18px;accent-color:var(--error)" onchange="selectPrivacy(this)">
+          <span id="privacyNoTxt" style="font-size:14px;font-weight:600;color:var(--error)">❌ 동의하지 않습니다 (I Disagree)</span>
+        </label>
+      </div>
+      <div class="err" id="err-privacy">개인정보 수집에 동의해주세요.</div>
     </div>
     <button class="btn" onclick="go3()">다음 → 위임장 서명</button>
     <button class="btn2" onclick="go1()">← 이전</button>
@@ -266,7 +338,201 @@ const COUNTRIES = [
   { c:'기타',             l:'en', flag:'',   em:'🌏',  name:'Other',       sub:'몽골/캄보디아/기타' },
 ];
 
-// ── 국가별 훅 메시지 ──
+// ── 국가별 근로소득자 / 개인정보 텍스트 ──
+const LANG_TEXT = {
+  zh: {
+    empYes: '✅ 工薪所得者（受雇员工） (근로소득자)', empYesSub: '在公司工作并领取工资的人员',
+    empNo: '❌ 非工薪所得者 (비근로소득자)', empNoSub: '经营所得、其他所得等',
+    houseLabel1: '月租 (월세)', houseSub1: '每月支付租金',
+    houseLabel2: '租房押金 (전세)', houseSub2: '一次性押金租房',
+    houseLabel3: '自有房屋 (자가)', houseSub3: '本人拥有的房屋',
+    privacyTitle: '📋 个人信息收集及使用同意 (개인정보 수집 및 이용 동의)',
+    privacyItem1: '收集项目 (수집 항목)', privacyItem1Val: '姓名、联系方式、外国人登录号、签名 (이름·연락처·외국인등록번호·서명)',
+    privacyItem2: '使用目的 (이용 목적)', privacyItem2Val: '所得税更正申报税务代理 (소득세 경정청구 세무대리)',
+    privacyItem3: '保留期限 (보유 기간)', privacyItem3Val: '更正申报完成后5年 (경정청구 완료 후 5년)',
+    privacyNote: '本人同意세무회계 아진收集并使用上述个人信息，用于所得税更正申报税务代理目的。',
+    privacyYes: '✅ 同意 (동의합니다)', privacyNo: '❌ 不同意 (동의하지 않습니다)',
+  },
+  vi: {
+    empYes: '✅ Người có thu nhập từ việc làm (근로소득자)', empYesSub: 'Người được thuê và nhận lương từ công ty',
+    empNo: '❌ Không phải người có thu nhập từ việc làm (비근로소득자)', empNoSub: 'Thu nhập kinh doanh, thu nhập khác, v.v.',
+    houseLabel1: 'Thuê tháng (월세)', houseSub1: 'Trả tiền thuê hàng tháng',
+    houseLabel2: 'Jeonse (전세)', houseSub2: 'Đặt cọc thuê nhà',
+    houseLabel3: 'Nhà riêng (자가)', houseSub3: 'Nhà sở hữu',
+    privacyTitle: '📋 Đồng ý Thu thập và Sử dụng Thông tin Cá nhân (개인정보 수집 및 이용 동의)',
+    privacyItem1: 'Mục thu thập (수집 항목)', privacyItem1Val: 'Họ tên, liên lạc, số đăng ký, chữ ký (이름·연락처·등록번호·서명)',
+    privacyItem2: 'Mục đích (이용 목적)', privacyItem2Val: 'Đại lý thuế khai bổ sung thuế thu nhập (소득세 경정청구 세무대리)',
+    privacyItem3: 'Thời hạn lưu trữ (보유 기간)', privacyItem3Val: '5 năm sau khi hoàn tất khai bổ sung (경정청구 완료 후 5년)',
+    privacyNote: 'Tôi đồng ý cho 세무회계 아진 thu thập và sử dụng thông tin cá nhân nêu trên.',
+    privacyYes: '✅ Đồng ý (동의합니다)', privacyNo: '❌ Không đồng ý (동의하지 않습니다)',
+  },
+  en: {
+    empYes: '✅ Employment Income Earner', empYesSub: 'Employed by a company and receiving salary',
+    empNo: '❌ Non-Employment Income', empNoSub: 'Business income, other income, etc.',
+    houseLabel1: 'Monthly Rent', houseSub1: 'Pay rent monthly',
+    houseLabel2: 'Jeonse (전세)', houseSub2: 'Deposit-based rental',
+    houseLabel3: 'Own House', houseSub3: 'Owner-occupied',
+    privacyTitle: '📋 Consent to Collection and Use of Personal Information (개인정보 수집 및 이용 동의)',
+    privacyItem1: 'Items (수집 항목)', privacyItem1Val: 'Name, contact, registration number, signature (이름·연락처·등록번호·서명)',
+    privacyItem2: 'Purpose (이용 목적)', privacyItem2Val: 'Income tax amended return agency (소득세 경정청구 세무대리)',
+    privacyItem3: 'Retention (보유 기간)', privacyItem3Val: '5 years after completion (경정청구 완료 후 5년)',
+    privacyNote: 'I agree to the collection and use of my personal information by 세무회계 아진 for the purpose of income tax amended return agency.',
+    privacyYes: '✅ I Agree', privacyNo: '❌ I Disagree',
+  },
+  th: {
+    empYes: '✅ ผู้มีรายได้จากการจ้างงาน (근로소득자)', empYesSub: 'ทำงานในบริษัทและได้รับเงินเดือน',
+    empNo: '❌ ไม่ใช่ผู้มีรายได้จากการจ้างงาน (비근로소득자)', empNoSub: 'รายได้จากธุรกิจ, รายได้อื่น ฯลฯ',
+    houseLabel1: 'เช่ารายเดือน (월세)', houseSub1: 'จ่ายค่าเช่ารายเดือน',
+    houseLabel2: 'จอนเซ (전세)', houseSub2: 'เช่าแบบวางเงินประกัน',
+    houseLabel3: 'บ้านตัวเอง (자가)', houseSub3: 'บ้านของตัวเอง',
+    privacyTitle: '📋 ความยินยอมในการเก็บรวบรวมและใช้ข้อมูลส่วนบุคคล (개인정보 수집 및 이용 동의)',
+    privacyItem1: 'รายการที่เก็บ (수집 항목)', privacyItem1Val: 'ชื่อ, ติดต่อ, หมายเลขลงทะเบียน, ลายเซ็น (이름·연락처·등록번호·서명)',
+    privacyItem2: 'วัตถุประสงค์ (이용 목적)', privacyItem2Val: 'ตัวแทนภาษีสำหรับการยื่นแบบแก้ไขภาษีเงินได้ (소득세 경정청구 세무대리)',
+    privacyItem3: 'ระยะเวลาเก็บ (보유 기간)', privacyItem3Val: '5 ปีหลังจากเสร็จสิ้น (경정청구 완료 후 5년)',
+    privacyNote: 'ข้าพเจ้ายินยอมให้ 세무회계 아진 เก็บรวบรวมและใช้ข้อมูลส่วนบุคคลข้างต้น',
+    privacyYes: '✅ ยินยอม (동의합니다)', privacyNo: '❌ ไม่ยินยอม (동의하지 않습니다)',
+  },
+  uz: {
+    empYes: "✅ Ish haqi oluvchi xodim (근로소득자)", empYesSub: "Kompaniyada ishlaydi va maosh oladi",
+    empNo: "❌ Ish haqi bo'lmagan daromad (비근로소득자)", empNoSub: "Biznes daromadi, boshqa daromadlar",
+    houseLabel1: "Oylik ijara (월세)", houseSub1: "Har oy ijara to'lash",
+    houseLabel2: "Jonse (전세)", houseSub2: "Garov asosida ijara",
+    houseLabel3: "O'z uyi (자가)", houseSub3: "O'z mulki",
+    privacyTitle: "📋 Shaxsiy ma'lumotlarni yig'ish va foydalanishga rozilik (개인정보 수집 및 이용 동의)",
+    privacyItem1: "Yig'iladigan ma'lumotlar (수집 항목)", privacyItem1Val: "Ism, aloqa, ro'yxatga olish raqami, imzo (이름·연락처·등록번호·서명)",
+    privacyItem2: "Maqsad (이용 목적)", privacyItem2Val: "Daromad solig'i tuzatilgan deklaratsiyasi agenti (소득세 경정청구 세무대리)",
+    privacyItem3: "Saqlash muddati (보유 기간)", privacyItem3Val: "Tugatilgandan keyin 5 yil (경정청구 완료 후 5년)",
+    privacyNote: "Men 세무회계 아진 tomonidan yuqoridagi shaxsiy ma'lumotlarni yig'ish va foydalanishga roziman.",
+    privacyYes: "✅ Roziman (동의합니다)", privacyNo: "❌ Rozi emasman (동의하지 않습니다)",
+  },
+  tl: {
+    empYes: '✅ May Kita mula sa Trabaho (근로소득자)', empYesSub: 'Employed sa isang kumpanya at tumatanggap ng sahod',
+    empNo: '❌ Walang Kita mula sa Trabaho (비근로소득자)', empNoSub: 'Kita sa negosyo, ibang kita, atbp.',
+    houseLabel1: 'Buwanang Upa (월세)', houseSub1: 'Nagbabayad ng upa bawat buwan',
+    houseLabel2: 'Jeonse (전세)', houseSub2: 'Deposito batay na pag-upa',
+    houseLabel3: 'Sariling Bahay (자가)', houseSub3: 'Sariling-ari',
+    privacyTitle: '📋 Pahintulot sa Koleksyon at Paggamit ng Personal na Impormasyon (개인정보 수집 및 이용 동의)',
+    privacyItem1: 'Mga Item (수집 항목)', privacyItem1Val: 'Pangalan, contact, registration number, pirma (이름·연락처·등록번호·서명)',
+    privacyItem2: 'Layunin (이용 목적)', privacyItem2Val: 'Ahente ng buwis para sa amended return (소득세 경정청구 세무대리)',
+    privacyItem3: 'Panahon ng pagpapanatili (보유 기간)', privacyItem3Val: '5 taon pagkatapos makumpleto (경정청구 완료 후 5년)',
+    privacyNote: 'Sumasang-ayon ako sa koleksyon at paggamit ng aking personal na impormasyon ng 세무회계 아진.',
+    privacyYes: '✅ Sumasang-ayon (동의합니다)', privacyNo: '❌ Hindi Sumasang-ayon (동의하지 않습니다)',
+  },
+  ja: {
+    empYes: '✅ 給与所得者 (근로소득자)', empYesSub: '会社に雇用され給与を受け取っている方',
+    empNo: '❌ 給与所得者以外 (비근로소득자)', empNoSub: '事業所得・その他所得等',
+    houseLabel1: '月額賃貸 (월세)', houseSub1: '毎月家賃を支払う',
+    houseLabel2: '전세 (전세)', houseSub2: '保証金制賃貸',
+    houseLabel3: '自己所有 (자가)', houseSub3: '自己所有の住宅',
+    privacyTitle: '📋 個人情報の収集・利用に関する同意 (개인정보 수집 및 이용 동의)',
+    privacyItem1: '収集項目 (수집 항목)', privacyItem1Val: '氏名、連絡先、外国人登録番号、署名 (이름·연락처·등록번호·서명)',
+    privacyItem2: '利用目的 (이용 목적)', privacyItem2Val: '所得税更正申告の税務代理 (소득세 경정청구 세무대리)',
+    privacyItem3: '保有期間 (보유 기간)', privacyItem3Val: '更正申告完了後5年間 (경정청구 완료 후 5년)',
+    privacyNote: '私は세무회계 아진が上記個人情報を所得税更正申告の税務代理目的で収集・利用することに同意します。',
+    privacyYes: '✅ 同意します (동의합니다)', privacyNo: '❌ 同意しません (동의하지 않습니다)',
+  },
+  ne: {
+    empYes: '✅ रोजगारी आयकर्ता (근로소득자)', empYesSub: 'कम्पनीमा कार्यरत र तलब प्राप्त गर्ने व्यक्ति',
+    empNo: '❌ गैर-रोजगारी आयकर्ता (비근로소득자)', empNoSub: 'व्यापार आय, अन्य आय आदि',
+    houseLabel1: 'मासिक भाडा (월세)', houseSub1: 'मासिक भाडा तिर्ने',
+    houseLabel2: 'जोन्से (전세)', houseSub2: 'धरौटी भाडा',
+    houseLabel3: 'आफ्नै घर (자가)', houseSub3: 'आफ्नै स्वामित्व',
+    privacyTitle: '📋 व्यक्तिगत जानकारी संकलन तथा प्रयोगमा सहमति (개인정보 수집 및 이용 동의)',
+    privacyItem1: 'संकलन वस्तुहरू (수집 항목)', privacyItem1Val: 'नाम, सम्पर्क, दर्ता नम्बर, हस्ताक्षर (이름·연락처·등록번호·서명)',
+    privacyItem2: 'उद्देश्य (이용 목적)', privacyItem2Val: 'आयकर संशोधित विवरण एजेन्ट (소득세 경정청구 세무대리)',
+    privacyItem3: 'भण्डारण अवधि (보유 기간)', privacyItem3Val: 'पूरा भएपछि ५ वर्ष (경정청구 완료 후 5년)',
+    privacyNote: 'म 세무회계 아진 लाई माथि उल्लेखित व्यक्तिगत जानकारी संकलन र प्रयोग गर्न सहमति दिन्छु।',
+    privacyYes: '✅ सहमत छु (동의합니다)', privacyNo: '❌ सहमत छैन (동의하지 않습니다)',
+  },
+  id: {
+    empYes: '✅ Penerima Penghasilan dari Pekerjaan (근로소득자)', empYesSub: 'Dipekerjakan oleh perusahaan dan menerima gaji',
+    empNo: '❌ Bukan Penerima Penghasilan dari Pekerjaan (비근로소득자)', empNoSub: 'Penghasilan usaha, penghasilan lainnya, dll.',
+    houseLabel1: 'Sewa Bulanan (월세)', houseSub1: 'Membayar sewa bulanan',
+    houseLabel2: 'Jeonse (전세)', houseSub2: 'Sewa berbasis deposito',
+    houseLabel3: 'Rumah Sendiri (자가)', houseSub3: 'Milik sendiri',
+    privacyTitle: '📋 Persetujuan Pengumpulan dan Penggunaan Informasi Pribadi (개인정보 수집 및 이용 동의)',
+    privacyItem1: 'Item yang dikumpulkan (수집 항목)', privacyItem1Val: 'Nama, kontak, nomor registrasi, tanda tangan (이름·연락처·등록번호·서명)',
+    privacyItem2: 'Tujuan (이용 목적)', privacyItem2Val: 'Agen pajak untuk SPT yang diubah (소득세 경정청구 세무대리)',
+    privacyItem3: 'Periode penyimpanan (보유 기간)', privacyItem3Val: '5 tahun setelah selesai (경정청구 완료 후 5년)',
+    privacyNote: 'Saya menyetujui pengumpulan dan penggunaan informasi pribadi saya oleh 세무회계 아진.',
+    privacyYes: '✅ Setuju (동의합니다)', privacyNo: '❌ Tidak Setuju (동의하지 않습니다)',
+  },
+};
+
+// ── 주거형태 선택 ──
+function selectHouse(radio, id) {
+  ['house1','house2','house3'].forEach(h => {
+    document.getElementById(h).style.borderColor = 'var(--border)';
+    document.getElementById(h).style.background = 'var(--white)';
+  });
+  document.getElementById(id).style.borderColor = 'var(--navy)';
+  document.getElementById(id).style.background = '#F0F4FF';
+}
+function selectEmp(val) {
+  document.getElementById('empValue').value = val;
+  const yesLabel=document.getElementById('empYesLabel');
+  const noLabel =document.getElementById('empNoLabel');
+  const yesDot  =document.getElementById('empYesDot');
+  const noDot   =document.getElementById('empNoDot');
+  yesLabel.style.borderColor='var(--border)'; yesLabel.style.background='var(--white)';
+  noLabel.style.borderColor ='var(--border)'; noLabel.style.background ='var(--white)';
+  yesDot.innerHTML=''; yesDot.style.borderColor='var(--border)'; yesDot.style.background='white';
+  noDot.innerHTML =''; noDot.style.borderColor ='var(--border)'; noDot.style.background ='white';
+  if(val==='yes'){
+    yesLabel.style.borderColor='var(--navy)'; yesLabel.style.background='#EEF2FF';
+    yesDot.style.borderColor='var(--navy)'; yesDot.style.background='var(--navy)';
+    yesDot.innerHTML='<span style="color:white;font-size:12px">✓</span>';
+  } else {
+    noLabel.style.borderColor='var(--error)'; noLabel.style.background='#FEF2F2';
+    noDot.style.borderColor='var(--error)'; noDot.style.background='var(--error)';
+    noDot.innerHTML='<span style="color:white;font-size:12px">✓</span>';
+  }
+}
+
+// ── 개인정보 동의 선택 ──
+function selectPrivacy(radio) {
+  if(radio.value === 'no'){
+    alert('개인정보 수집에 동의하지 않으면 서비스 이용이 어렵습니다.');
+  }
+}
+
+// ── 국가별 텍스트 적용 ──
+function applyLangText() {
+  const t = LANG_TEXT[S.lang] || LANG_TEXT['en'];
+  // 근로소득자
+  const empYesEl = document.querySelector('#empYesLabel strong');
+  const empYesSubEl = document.getElementById('empYesSub');
+  const empNoEl = document.querySelector('#empNoLabel strong');
+  const empNoSubEl = document.getElementById('empNoSub');
+  if(empYesEl) empYesEl.textContent = t.empYes;
+  if(empYesSubEl) empYesSubEl.textContent = t.empYesSub;
+  if(empNoEl) empNoEl.textContent = t.empNo;
+  if(empNoSubEl) empNoSubEl.textContent = t.empNoSub;
+  // 주거형태
+  const hl1=document.getElementById('houseLabel1'); if(hl1) hl1.textContent=t.houseLabel1||'월세';
+  const hs1=document.getElementById('houseSub1');   if(hs1) hs1.textContent=t.houseSub1||'Monthly rent';
+  const hl2=document.getElementById('houseLabel2'); if(hl2) hl2.textContent=t.houseLabel2||'전세';
+  const hs2=document.getElementById('houseSub2');   if(hs2) hs2.textContent=t.houseSub2||'Jeonse';
+  const hl3=document.getElementById('houseLabel3'); if(hl3) hl3.textContent=t.houseLabel3||'자가';
+  const hs3=document.getElementById('houseSub3');   if(hs3) hs3.textContent=t.houseSub3||'Own house';
+  // 개인정보 제목
+  const privacyTitle = document.getElementById('privacyTitle');
+  if(privacyTitle) privacyTitle.textContent = t.privacyTitle;
+  // 개인정보 테이블 항목
+  const pi1 = document.getElementById('privacyItem1'); if(pi1) pi1.textContent = t.privacyItem1;
+  const pi1v = document.getElementById('privacyItem1Val'); if(pi1v) pi1v.textContent = t.privacyItem1Val;
+  const pi2 = document.getElementById('privacyItem2'); if(pi2) pi2.textContent = t.privacyItem2;
+  const pi2v = document.getElementById('privacyItem2Val'); if(pi2v) pi2v.textContent = t.privacyItem2Val;
+  const pi3 = document.getElementById('privacyItem3'); if(pi3) pi3.textContent = t.privacyItem3;
+  const pi3v = document.getElementById('privacyItem3Val'); if(pi3v) pi3v.textContent = t.privacyItem3Val;
+  // 개인정보 동의 문구
+  const privacyLang = document.getElementById('privacyLangBox');
+  if(privacyLang) privacyLang.textContent = t.privacyNote;
+  const privacyYesTxt = document.getElementById('privacyYesTxt');
+  const privacyNoTxt = document.getElementById('privacyNoTxt');
+  if(privacyYesTxt) privacyYesTxt.textContent = t.privacyYes;
+  if(privacyNoTxt) privacyNoTxt.textContent = t.privacyNo;
+}
 const HOOK = {
   zh: { bg:'#0B1F3A', q:'您是否多缴了税款？', a:'在韩国工作期间，很多人因未申报年终结算而多缴税款。\n我们帮您免费核查，有退款才收费！', badge:'无退款 = 不收费 💰' },
   vi: { bg:'#0B1F3A', q:'Bạn có nộp thừa thuế không?', a:'Nhiều lao động nước ngoài tại Hàn Quốc đã nộp thừa thuế vì không khai quyết toán cuối năm.\nChúng tôi kiểm tra miễn phí — chỉ thu phí khi có hoàn thuế!', badge:'Không hoàn tiền = Không mất phí 💰' },
@@ -347,6 +613,7 @@ function go2(){
   if(!S.country){ show('err-c'); return; }
   hide('err-c');
   buildHook();
+  applyLangText();
   showStep(2);
 }
 
@@ -355,6 +622,12 @@ function go3(){
   if(!v('name')){show('err-name');ok=false;}else hide('err-name');
   if(!v('arcnum')||v('arcnum').length<13){show('err-arc');ok=false;}else hide('err-arc');
   if(!v('phone')){show('err-phone');ok=false;}else hide('err-phone');
+  const empVal = document.getElementById('empValue').value; const emp = empVal ? {value: empVal} : null;
+  if(!emp){show('err-emp');ok=false;}else hide('err-emp');
+  const house = document.querySelector('input[name="house"]:checked');
+  if(!house){show('err-house');ok=false;}else hide('err-house');
+  const privacy = document.querySelector('input[name="privacy"]:checked');
+  if(!privacy||privacy.value==='no'){show('err-privacy');ok=false;}else hide('err-privacy');
   if(!S.uploads.rc){show('err-rc');ok=false;}else hide('err-rc');
   if(!ok) return;
   buildPOA();
@@ -471,27 +744,86 @@ async function doSubmit(){
 
   try{
     const formData = new FormData();
-    formData.append('국가', S.country);
+    const empValSubmit = document.getElementById('empValue').value;
+    const house = document.querySelector('input[name="house"]:checked');
     formData.append('성명', v('name'));
     formData.append('등록번호', v('arcnum'));
     formData.append('연락처', v('phone'));
     formData.append('환급신청연도', '2020~2024');
+    formData.append('근로소득자여부', empValSubmit==='yes'?'근로소득자':'비근로소득자');
+    formData.append('주거형태', house ? house.value : '미선택');
+    formData.append('개인정보동의', '동의');
 
     // 서명 이미지
     const sigData = sigCanvas.toDataURL('image/png');
 
-    // ── html2canvas로 화면 위임장 캡처 → PDF ──
+    // ── 신청정보 요약 PDF ──
     const { jsPDF } = window.jspdf;
+    const infoPdf = new jsPDF({ orientation:'portrait', unit:'mm', format:'a4' });
+    const W2=210, M2=15;
+    infoPdf.setFillColor(11,31,58); infoPdf.rect(0,0,W2,22,'F');
+    infoPdf.setTextColor(245,166,35); infoPdf.setFont('helvetica','bold'); infoPdf.setFontSize(15);
+    infoPdf.text('Tax Refund Application - Info Summary', W2/2, 10, {align:'center'});
+    infoPdf.setTextColor(255,255,255); infoPdf.setFontSize(9);
+    infoPdf.text('세무회계 아진', W2/2, 18, {align:'center'});
+
+    const rows = [
+      ['Country (국가)', S.country],
+      ['Name (성명)', v('name')],
+      ['Reg. No. (등록번호)', v('arcnum')],
+      ['Phone (연락처)', v('phone')],
+      ['Refund Years (신청연도)', '2020 ~ 2024'],
+      ['Employment (근로소득자)', emp ? (emp.value==='yes'?'✅ 근로소득자 (Employee)':'❌ 비근로소득자') : '-'],
+      ['Housing (주거형태)', house ? house.value : '-'],
+      ['Privacy Consent (개인정보동의)', '✅ 동의'],
+      ['Date (신청일)', new Date().toLocaleDateString('ko-KR')],
+    ];
+
+    let iy = 30;
+    rows.forEach((row, i) => {
+      const bg = i%2===0 ? [247,249,252] : [255,255,255];
+      infoPdf.setFillColor(...bg);
+      infoPdf.rect(M2, iy, W2-M2*2, 10, 'F');
+      infoPdf.setDrawColor(221,227,238); infoPdf.setLineWidth(0.2);
+      infoPdf.rect(M2, iy, W2-M2*2, 10, 'D');
+      infoPdf.setTextColor(132,146,166); infoPdf.setFont('helvetica','normal'); infoPdf.setFontSize(8);
+      infoPdf.text(row[0], M2+3, iy+6.5);
+      infoPdf.setTextColor(11,31,58); infoPdf.setFont('helvetica','bold'); infoPdf.setFontSize(9);
+      infoPdf.text(String(row[1]), M2+65, iy+6.5);
+      iy += 10;
+    });
+
+    // 서명 미리보기
+    iy += 6;
+    infoPdf.setTextColor(11,31,58); infoPdf.setFont('helvetica','bold'); infoPdf.setFontSize(9);
+    infoPdf.text('Signature (서명)', M2, iy);
+    iy += 4;
+    infoPdf.setDrawColor(221,227,238);
+    infoPdf.roundedRect(M2, iy, W2-M2*2, 25, 2, 2, 'D');
+    infoPdf.addImage(sigData, 'PNG', M2+2, iy+2, W2-M2*2-4, 21);
+
+    const infoBlob = infoPdf.output('blob');
+    const safeName2 = v('name').replace(/[^a-zA-Z0-9가-힣]/g,'') || 'applicant';
+    const infoFile = new File([infoBlob], `${safeName2}_신청정보_${dateStr}.pdf`, {type:'application/pdf'});
+    formData.append('attachment2', infoFile);
+
+    // ── html2canvas로 위임장 캡처 → PDF ──
     const pdf = new jsPDF({ orientation:'portrait', unit:'mm', format:'a4' });
     const W = 210, M = 10;
 
-    // 위임장 박스 캡처
+    // 위임장 박스 캡처 (폰트 CORS 허용)
     const poaEl = document.getElementById('poaBox');
     const poaCanvas = await html2canvas(poaEl, {
       scale: 2,
       useCORS: true,
+      allowTaint: true,
       backgroundColor: '#ffffff',
-      logging: false
+      logging: false,
+      onclone: (doc) => {
+        // 캡처 시 폰트 강제 적용
+        const el = doc.getElementById('poaBox');
+        if(el) el.style.fontFamily = 'Arial, sans-serif';
+      }
     });
     const poaImg = poaCanvas.toDataURL('image/png');
     const poaW = W - M*2;
@@ -549,8 +881,10 @@ async function doSubmit(){
     }
 
     const pdfBlob = pdf.output('blob');
-    const safeName = v('name').replace(/[^a-zA-Z0-9]/g,'_') || 'applicant';
-    const pdfFile = new File([pdfBlob], `POA_${safeName}.pdf`, {type:'application/pdf'});
+    const today2 = new Date();
+    const dateStr = `${today2.getFullYear()}${String(today2.getMonth()+1).padStart(2,'0')}${String(today2.getDate()).padStart(2,'0')}`;
+    const safeName = v('name').replace(/[^a-zA-Z0-9가-힣]/g,'') || 'applicant';
+    const pdfFile = new File([pdfBlob], `${safeName}_위임장_${dateStr}.pdf`, {type:'application/pdf'});
     formData.append('attachment', pdfFile);
 
     const res = await fetch('https://formspree.io/f/xeevwllw', {
